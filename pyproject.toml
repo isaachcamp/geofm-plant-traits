@@ -1,0 +1,22 @@
+[project]
+name = "geofm-plant-traits"
+version = "0.1.0"
+description = "Predicting global forest functional traits with a geospatial foundation model"
+authors = ["Isaac Campbell"]
+license = "GNU General Public License v3.0"
+readme = "README.md"
+requires-python = "~=3.12"
+dependencies = [
+    "folium>=0.19.5",
+    "geojson>=3.2.0",
+    "geopandas>=1.0.1",
+    "ipykernel>=6.29.5",
+    "matplotlib>=3.10.1",
+    "numpy>=2.2.4",
+    "pystac>=1.12.2",
+    "pystac-client>=0.8.6",
+    "pytest>=8.3.5",
+    "python-dotenv>=1.1.0",
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+]
