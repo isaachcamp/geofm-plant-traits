@@ -12,5 +12,5 @@ setup(name='geofm-plant-traits',
       author_email='isaac.campbell@wolfson.ox.ac.uk',
       license='GNU GPLv3',
       packages=find_packages(exclude=["tests", "docs"]),
-      version=0.1.0,
+      version="0.1.0",
       zip_safe=False)
