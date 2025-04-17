@@ -2,12 +2,14 @@
 name = "geofm-plant-traits"
 version = "0.1.0"
 description = "Predicting global forest functional traits with a geospatial foundation model"
-authors = ["Isaac Campbell"]
-license = "GNU General Public License v3.0"
+authors = [{name = "Isaac Campbell", email = "isaac.campbell@wolfson.ox.ac.uk"}]
+license = "GPL-3.0-or-later"
 readme = "README.md"
 requires-python = "~=3.12"
 dependencies = [
     "folium>=0.19.5",
+    "geoarrow-pandas>=0.1.1",
+    "geoarrow-pyarrow>=0.1.2",
     "geojson>=3.2.0",
     "geopandas>=1.0.1",
     "graphviz>=0.20.3",
@@ -24,4 +26,5 @@ dependencies = [
     "statsmodels>=0.14.4",
     "torch>=2.6.0",
     "torchvision>=0.21.0",
+    "tqdm>=4.67.1",
 ]
