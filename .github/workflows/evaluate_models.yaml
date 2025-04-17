@@ -31,7 +31,6 @@ jobs:
     - name: Install dependencies with uv
       run: |
         uv pip install --system -e .
-        uv pip install -e .
     
     - name: Discover and evaluate models
       run: |
