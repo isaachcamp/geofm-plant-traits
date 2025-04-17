@@ -13,4 +13,5 @@ setup(name='geofm-plant-traits',
       license='GNU GPLv3',
       packages=find_packages(exclude=["tests", "docs"]),
       version="0.1.0",
-      zip_safe=False)
+      zip_safe=False
+)
