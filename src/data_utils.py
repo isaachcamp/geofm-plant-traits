@@ -24,7 +24,8 @@ class LabelledTraitData:
 
         # Load the datasets and labels.
         self.train_data = pd.read_csv(
-            self.data_path / 'train' / f'{self.var}_train_data.csv',
+            # self.data_path / 'train' / f'{self.var}_train_data.csv',
+            list((self.data_path / "train/").glob("*"))[0]
             index_col=0
         )
         self.train_labels = pd.read_csv(
