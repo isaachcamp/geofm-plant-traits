@@ -11,7 +11,7 @@ from sklearn.metrics import (
 from evaluation.leaderboard_writer import update_leaderboard
 from src.data_utils import LabelledTraitData
 
-CWD = os.path.dirname(os.path.abspath(__file__))
+
 VARS = [
     'N.percent',
     'P.percent',
@@ -67,7 +67,10 @@ def evaluate_model(model, dpath: str, var):
 
 def run_evaluation(model_path: str):
     """Run evaluation for a model on all datasets."""
-    dpath = Path(f"{CWD}/../data")
+    dpath = Path("data")
+    print(dpath.parent)
+    print(dpath.resolve())
+    print(list(dpath.iterdir()))
     model_path = Path(model_path)
     if not model_path.exists():
         raise FileNotFoundError(f"Model path {model_path} does not exist.")
