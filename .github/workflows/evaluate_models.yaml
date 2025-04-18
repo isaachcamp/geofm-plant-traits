@@ -52,6 +52,10 @@ jobs:
       run: |
         # Find all model files
         for model_file in models/*.py; do
+          # Skip __init__.py files
+          if [[ "$model_file" == *"__init__.py"* ]]; then
+            continue
+          fi
           if [ -f "$model_file" ]; then
             model_name=$(basename $model_file .py)
             echo "Evaluating model: $model_name"
