@@ -9,7 +9,7 @@ class TestLabelledTraitData:
         var="N.Percent"
     )
     def test_train_data(self):
-        """Test that the train data is loaded correctly."""
+        """Test train data is loaded correctly and conforms to expectations."""
         # Check that the train data is not empty
         assert not self.dataset.train_data.empty
 
@@ -27,8 +27,13 @@ class TestLabelledTraitData:
         # Check labels contains no NaN values
         assert not self.dataset.train_labels.isna().any().any()
 
+        # Check dtypes are all floats
+        assert self.dataset.train_data.dtypes.apply(lambda x: x == 'float64').all()
+        # Check labels are all floats
+        assert self.dataset.train_labels.dtypes.apply(lambda x: x == 'float64').all()
+
     def test_val_data(self):
-        """Test that the validation data is loaded correctly."""
+        """Test validation data is loaded correctly and conforms to expectations."""
         # Check that the validation data is not empty
         assert not self.dataset.val_data.empty
 
@@ -40,14 +45,19 @@ class TestLabelledTraitData:
         assert self.dataset.val_labels.columns.tolist() == ['TraitValue']
         # Check that the validation data and labels have the same index
         assert self.dataset.val_data.index.equals(self.dataset.val_labels.index)
-        
+
         # Check data contains no NaN values
         assert not self.dataset.val_data.isna().any().any()
         # Check labels contains no NaN values
         assert not self.dataset.val_labels.isna().any().any()
 
+        # Check dtypes are all floats
+        assert self.dataset.val_data.dtypes.apply(lambda x: x == 'float64').all()
+        # Check labels are all floats
+        assert self.dataset.val_labels.dtypes.apply(lambda x: x == 'float64').all()
+
     def test_test_data(self):
-        """Test that the test data is loaded correctly."""
+        """Test test data is loaded correctly and conforms to expectations."""
         # Check that the test data is not empty
         assert not self.dataset.test_data.empty
 
@@ -64,6 +74,11 @@ class TestLabelledTraitData:
         assert not self.dataset.test_data.isna().any().any()
         # Check labels contains no NaN values
         assert not self.dataset.test_labels.isna().any().any()
+
+        # Check dtypes are all floats
+        assert self.dataset.test_data.dtypes.apply(lambda x: x == 'float64').all()
+        # Check labels are all floats
+        assert self.dataset.test_labels.dtypes.apply(lambda x: x == 'float64').all()
 
 
 class TestTrainValTestSplit:
