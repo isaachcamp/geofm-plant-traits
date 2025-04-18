@@ -56,28 +56,6 @@ jobs:
         # List files to see what we're dealing with
         echo "Files with raw listing:"
         ls -lb data/train/
-        
-        # Find files with $ character using proper escaping
-        echo "Finding files with $ character:"
-        find data -type f -name "*\$*" -print || echo "No matches with escaped search"
-        
-        # Try alternative approach with grep
-        echo "Files with $ using grep:"
-        find data -type f | grep '\$' || echo "No matches with grep"
-        
-        # More robust approach using a loop over all files
-        for file in $(find data -type f); do
-          if [[ "$file" == *'$'* ]]; then
-            newname="${file//\$/}"
-            echo "Renaming: $file -> $newname"
-            mv "$file" "$newname"
-          fi
-        done
-        
-        # Verify the files after cleaning
-        echo "Files after cleaning:"
-        find data -type f | sort
-        find data/train -name "*" -type f -exec ls -la {} \; | cat -A
     
     - name: Discover and evaluate models
       run: |
