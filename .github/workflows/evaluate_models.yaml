@@ -52,7 +52,15 @@ jobs:
         echo "List of files in current directory:"
         ls -la
         echo "List of files in extracted directory:"
-        find . -type f | sort
+        find ./data -type f | sort
+
+    - name: Verify downloaded artifact
+      run: |
+        echo "Downloaded artifact size:"
+        du -sh data.zip
+        echo "Files in extracted artifact:"
+        unzip -l data.zip
+
 
 
     - name: Check file permissions
@@ -66,14 +74,6 @@ jobs:
         ls -la data/train/
         # Look specifically for files with "N" in the name
         find data/train -name "*N*" -type f
-
-    - name: Verify downloaded artifact
-      run: |
-        echo "Downloaded artifact size:"
-        du -sh data.zip
-        echo "Files in extracted artifact:"
-        unzip -l data.zip
-
 
     - name: Test file read
       run: |
