@@ -189,3 +189,39 @@ class TestGetOutlierIQR:
 
         # Check that no outliers are detected
         assert len(outliers) == 0
+
+class TestMinMaxScaler:
+    # Create a sample DataFrame
+    data = pd.DataFrame({
+        'A': [1, 2, 3],
+        'B': [4, 5, 6]
+    })
+
+    def test_min_maxes(self):
+        """Test normalization function has in range [0, 1]."""
+        # Normalize the DataFrame
+        normalized_data = dutils.minmax_scaler(self.data)
+
+        assert (normalized_data >= 0).all().all()
+        assert (normalized_data <= 1).all().all()
+
+        # Assert returned values correctly normalized
+        assert (normalized_data['A'] == pd.Series([0.0, 0.5, 1.0])).all()
+        assert (normalized_data['B'] == pd.Series([0.0, 0.5, 1.0])).all()
+
+        # Check that the min and max of each column are correct
+        assert normalized_data['A'].min() == 0
+        assert normalized_data['A'].max() == 1
+        assert normalized_data['B'].min() == 0
+        assert normalized_data['B'].max() == 1
+
+    def test_invalid_input(self):
+        """Test that the function raises an error for invalid input."""
+        # Create a sample list
+        data = [1, 2, 3]
+
+        # Check that the function raises a TypeError
+        try:
+            dutils.minmax_scaler(data)
+        except TypeError as e:
+            assert str(e) == "Input must be a pandas DataFrame or Series."

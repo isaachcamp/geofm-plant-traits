@@ -71,3 +71,9 @@ def get_outlier_iqr(X: pd.Series, zlim: int = 1.5) -> pd.DataFrame:
     q3 = X.quantile(0.75)
     thresh = zlim * (q3 - q1)
     return X[( X > (q3 + thresh) ) | ( X < (q1 - thresh) )]
+
+def minmax_scaler(X: pd.DataFrame | pd.Series) -> pd.DataFrame:
+    """Normalize the dataset using min-max scaling."""
+    if not isinstance(X, pd.DataFrame) and not isinstance(X, pd.Series):
+        raise TypeError("Input must be a pandas DataFrame or Series.")
+    return (X - X.min()) / (X.max() - X.min())
