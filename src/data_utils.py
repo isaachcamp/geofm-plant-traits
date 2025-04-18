@@ -20,7 +20,7 @@ class LabelledTraitData:
         if not (self.data_path / "train").exists():
             raise FileNotFoundError(f"Train directory {self.data_path / 'train'} does not exist.")
         if not (self.data_path / "train/N.percent_train_data.csv").exists():
-            raise FileNotFoundError(f"Train data file {self.data_path / 'train/N.percent_train_data.csv$'} does not exist.")
+            raise FileNotFoundError(f"Train data file {self.data_path / 'train/N.percent_train_data.csv'} does not exist.")
 
         # Load the datasets and labels.
         self.train_data = pd.read_csv(
