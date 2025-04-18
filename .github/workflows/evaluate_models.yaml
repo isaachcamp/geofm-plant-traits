@@ -31,6 +31,20 @@ jobs:
     - name: Install dependencies with uv
       run: |
         uv pip install --system -e .
+
+
+    - name: Download data artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        github_token: ${{ secrets.DATA_REPO_PAT }}
+        workflow: prepare_data.yml
+        name: training-data
+        repo: your-username/private-data-repo
+        
+    - name: Extract data
+      run: |
+        unzip data.zip
+        rm data.zip
     
     - name: Discover and evaluate models
       run: |
