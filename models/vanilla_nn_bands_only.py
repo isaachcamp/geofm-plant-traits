@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
-from src.data_utils import normalize
+from src.data_utils import minmax_scaler
 
 
 BANDS = [
@@ -76,7 +76,7 @@ class NNBandsOnly(BaseEstimator, RegressorMixin):
     def configure_data(self, X, y):
         """Configure the data for the model."""
         # Convert to PyTorch tensors
-        X = normalize(X[BANDS]).to_numpy()
+        X = minmax_scaler(X[BANDS]).to_numpy()
         y = y.to_numpy()
         X = torch.FloatTensor(X)
         y = torch.FloatTensor(y)
