@@ -45,6 +45,14 @@ jobs:
       run: |
         unzip data.zip
         rm data.zip
+
+    - name: Debug directory structure
+      run: |
+        echo "Current directory: $(pwd)"
+        echo "List of files in current directory:"
+        ls -la
+        echo "List of files in extracted directory:"
+        find . -type f | sort
     
     - name: Discover and evaluate models
       run: |
