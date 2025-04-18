@@ -44,18 +44,6 @@ jobs:
       run: |
         unzip data.zip
         rm data.zip
-
-    - name: Test file read
-      run: |
-        echo "Trying to read file directly:"
-        find data/train -name "*N*" -type f -exec basename {} \;
-        find data/train -name "**" -type f -exec ls -la {} \; | cat -A
-
-    - name: Clean filenames of special characters
-      run: |
-        # List files to see what we're dealing with
-        echo "Files with raw listing:"
-        ls -lb data/train/
     
     - name: Discover and evaluate models
       run: |
