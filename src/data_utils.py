@@ -77,3 +77,9 @@ def minmax_scaler(X: pd.DataFrame | pd.Series) -> pd.DataFrame:
     if not isinstance(X, pd.DataFrame) and not isinstance(X, pd.Series):
         raise TypeError("Input must be a pandas DataFrame or Series.")
     return (X - X.min()) / (X.max() - X.min())
+
+def standardise(X: np.ndarray, axis=0) -> np.ndarray:
+    """Standardize the dataset using z-score normalization."""
+    if not isinstance(X, np.ndarray):
+        raise TypeError("Input must be a numpy ndarray.")
+    return (X - X.mean(axis=axis)) / X.std(axis=axis)
