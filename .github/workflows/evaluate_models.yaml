@@ -43,43 +43,28 @@ jobs:
     - name: Extract data
       run: |
         unzip data.zip
-        # rm data.zip
-
-    - name: Debug directory structure
-      run: |
-        echo "Current directory: $(pwd)"
-        echo "List of files in current directory:"
-        ls -la
-        echo "List of files in extracted directory:"
-        find ./data -type f | sort
-
-    - name: Verify downloaded artifact
-      run: |
-        echo "Downloaded artifact size:"
-        du -sh data.zip
-        echo "Files in extracted artifact:"
-        unzip -l data.zip
-
-    - name: Check file permissions
-      run: |
-        echo "File permissions:"
-        stat ./data/train/
-
-    - name: Check exact filename case
-      run: |
-        echo "Files in data/train with exact case:"
-        ls -la data/train/
-        # Look specifically for files with "N" in the name
-        find data/train -name "*N*" -type f
+        rm data.zip
 
     - name: Test file read
       run: |
         echo "Trying to read file directly:"
         find data/train -name "*N*" -type f -exec basename {} \;
         find data/train -name "*N*" -type f -exec ls -la {} \; | cat -A
-        find data/train -name "*N*" -type f -exec head -n 1 {} \;
-        find data/train -name "*N*" -type f -print0 | xargs -0 cat | head -n 1
-        # head -n 1 data/train/N.percent_train_data.csv || echo "Failed to read file"
+        find data/train -name "*N*" -type f -exec head -n 1 {} \
+
+    - name: Clean filenames of special characters
+      run: |
+        # Find files with the $ character and rename them
+        find data -type f -name "*\$*" | while read file; do
+          # Create new filename without the $ character
+          newname=$(echo "$file" | sed 's/\$//g')
+          echo "Renaming: $file -> $newname"
+          mv "$file" "$newname"
+        done
+        
+        # Verify the files after cleaning
+        echo "Files after cleaning:"
+        find data -type f | sort
     
     - name: Discover and evaluate models
       run: |
@@ -88,7 +73,7 @@ jobs:
           if [ -f "$model_file" ]; then
             model_name=$(basename $model_file .py)
             echo "Evaluating model: $model_name"
-            uv run --system evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
+            python evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
           fi
         done
     
