@@ -1,5 +1,69 @@
+from pathlib import Path
 import src.data_utils as dutils
 import pandas as pd
+
+
+class TestLabelledTraitData:
+    dataset = dutils.LabelledTraitData(
+        data_path=Path("data"),
+        var="N.Percent"
+    )
+    def test_train_data(self):
+        """Test that the train data is loaded correctly."""
+        # Check that the train data is not empty
+        assert not self.dataset.train_data.empty
+
+        # Check that the train labels are not empty
+        assert not self.dataset.train_labels.empty
+        # Check that the train data and labels have the same length
+        assert len(self.dataset.train_data) == len(self.dataset.train_labels)
+        # Check that the train labels are in the correct format
+        assert self.dataset.train_labels.columns.tolist() == ['TraitValue']
+        # Check that the train data and labels have the same index
+        assert self.dataset.train_data.index.equals(self.dataset.train_labels.index)
+
+        # Check data contains no NaN values
+        assert not self.dataset.train_data.isna().any().any()
+        # Check labels contains no NaN values
+        assert not self.dataset.train_labels.isna().any().any()
+
+    def test_val_data(self):
+        """Test that the validation data is loaded correctly."""
+        # Check that the validation data is not empty
+        assert not self.dataset.val_data.empty
+
+        # Check that the validation labels are not empty
+        assert not self.dataset.val_labels.empty
+        # Check that the validation data and labels have the same length
+        assert len(self.dataset.val_data) == len(self.dataset.val_labels)
+        # Check that the validation labels are in the correct format
+        assert self.dataset.val_labels.columns.tolist() == ['TraitValue']
+        # Check that the validation data and labels have the same index
+        assert self.dataset.val_data.index.equals(self.dataset.val_labels.index)
+        
+        # Check data contains no NaN values
+        assert not self.dataset.val_data.isna().any().any()
+        # Check labels contains no NaN values
+        assert not self.dataset.val_labels.isna().any().any()
+
+    def test_test_data(self):
+        """Test that the test data is loaded correctly."""
+        # Check that the test data is not empty
+        assert not self.dataset.test_data.empty
+
+        # Check that the test labels are not empty
+        assert not self.dataset.test_labels.empty
+        # Check that the test data and labels have the same length
+        assert len(self.dataset.test_data) == len(self.dataset.test_labels)
+        # Check that the test labels are in the correct format
+        assert self.dataset.test_labels.columns.tolist() == ['TraitValue']
+        # Check that the test data and labels have the same index
+        assert self.dataset.test_data.index.equals(self.dataset.test_labels.index)
+
+        # Check data contains no NaN values
+        assert not self.dataset.test_data.isna().any().any()
+        # Check labels contains no NaN values
+        assert not self.dataset.test_labels.isna().any().any()
 
 
 class TestTrainValTestSplit:
