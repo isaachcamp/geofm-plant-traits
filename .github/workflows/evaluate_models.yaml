@@ -11,6 +11,9 @@ on:
       - 'models/**'
   workflow_dispatch:  # Allow manual triggering
 
+permissions:
+  contents: write  # Write access to the repository contents
+
 jobs:
   evaluate:
     runs-on: ubuntu-latest
