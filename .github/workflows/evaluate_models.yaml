@@ -61,12 +61,10 @@ jobs:
         echo "Files in extracted artifact:"
         unzip -l data.zip
 
-
-
     - name: Check file permissions
       run: |
         echo "File permissions:"
-        stat ${pwd}/data/train/N.percent_train_data.csv
+        stat ${pwd}/data/train/C.percent_train_data.csv
 
     - name: Check exact filename case
       run: |
@@ -87,7 +85,7 @@ jobs:
           if [ -f "$model_file" ]; then
             model_name=$(basename $model_file .py)
             echo "Evaluating model: $model_name"
-            python evaluation/evaluate_model.py --model_path "$model_file"
+            uv run evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
           fi
         done
     
