@@ -24,7 +24,7 @@ class LabelledTraitData:
         )
         self.train_labels = pd.read_csv(
             self.data_path / 'train' / f'{self.var}_train_labels.csv',
-            usecols=['TraitValue']
+            index_col=0
         )
 
         self.val_data = pd.read_csv(
@@ -33,7 +33,7 @@ class LabelledTraitData:
         )
         self.val_labels = pd.read_csv(
             self.data_path / 'validation' / f'{self.var}_val_labels.csv',
-            usecols=['TraitValue']
+            index_col=0
         )
 
         self.test_data = pd.read_csv(
@@ -42,7 +42,7 @@ class LabelledTraitData:
         )
         self.test_labels = pd.read_csv(
             self.data_path / 'test' / f'{self.var}_test_labels.csv',
-            usecols=['TraitValue']
+            index_col=0
         )
 
 
