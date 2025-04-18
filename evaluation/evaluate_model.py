@@ -71,10 +71,10 @@ def run_evaluation(model_path: str, dpath: str):
     if not model_path.exists():
         raise FileNotFoundError(f"Model path {model_path} does not exist.")
 
-    model = load_model(model_path)
     results = {}
 
     for var in VARS:
+        model = load_model(model_path)
         print(f"Evaluating {model.name} on {var}...")
         metrics = evaluate_model(model, dpath, var)
         results[var] = metrics
