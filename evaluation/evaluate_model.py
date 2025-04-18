@@ -67,7 +67,7 @@ def evaluate_model(model, dpath: str, var):
 
 def run_evaluation(model_path: str):
     """Run evaluation for a model on all datasets."""
-    dpath = Path("data")
+    dpath = Path("data").resolve()
     print(dpath.parent)
     print(dpath.resolve())
     print(list(dpath.iterdir()))
