@@ -64,7 +64,7 @@ jobs:
     - name: Check file permissions
       run: |
         echo "File permissions:"
-        stat ${pwd}/data/train/C.percent_train_data.csv
+        stat ${pwd}/data/train/
 
     - name: Check exact filename case
       run: |
