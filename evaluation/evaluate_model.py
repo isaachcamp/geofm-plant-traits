@@ -13,12 +13,12 @@ from src.data_utils import LabelledTraitData
 
 
 VARS = [
-    'N.percent',
-    'P.percent',
-    'K.percent',
-    'Ca.percent',
-    'Mg.percent',
-    'C.percent',
+    'N.Percent',
+    'P.Percent',
+    'K.Percent',
+    'Ca.Percent',
+    'Mg.Percent',
+    'C.Percent',
     'Amax',
     'Asat',
     'Area.cm2',
