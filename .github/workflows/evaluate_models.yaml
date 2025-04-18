@@ -49,7 +49,7 @@ jobs:
       run: |
         echo "Trying to read file directly:"
         find data/train -name "*N*" -type f -exec basename {} \;
-        find data/train -name "*N*" -type f -exec ls -la {} \; | cat -A
+        find data/train -name "**" -type f -exec ls -la {} \; | cat -A
 
     - name: Clean filenames of special characters
       run: |
@@ -77,7 +77,7 @@ jobs:
         # Verify the files after cleaning
         echo "Files after cleaning:"
         find data -type f | sort
-        find data/train -name "*N*" -type f -exec ls -la {} \; | cat -A
+        find data/train -name "*" -type f -exec ls -la {} \; | cat -A
     
     - name: Discover and evaluate models
       run: |
