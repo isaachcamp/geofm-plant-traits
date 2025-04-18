@@ -77,7 +77,7 @@ class NNBandsOnly(BaseEstimator, RegressorMixin):
         """Configure the data for the model."""
         # Convert to PyTorch tensors
         X = minmax_scaler(X[BANDS]).to_numpy()
-        y = y.to_numpy()
+        y = y.to_numpy().reshape(-1, 1)
         X = torch.FloatTensor(X)
         y = torch.FloatTensor(y)
         return X, y
