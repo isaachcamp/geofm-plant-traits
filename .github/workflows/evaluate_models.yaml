@@ -50,7 +50,6 @@ jobs:
         echo "Trying to read file directly:"
         find data/train -name "*N*" -type f -exec basename {} \;
         find data/train -name "*N*" -type f -exec ls -la {} \; | cat -A
-        find data/train -name "*N*" -type f -exec head -n 1 {} \
 
     - name: Clean filenames of special characters
       run: |
