@@ -27,10 +27,13 @@ class NNBandsOnly(BaseEstimator, RegressorMixin):
         self.seed = seed
         self.model = nn.Sequential(
             nn.Linear(9, 64),
+            nn.BatchNorm1d(64),
             nn.ReLU(),
             nn.Linear(64, 128),
+            nn.BatchNorm1d(128),
             nn.ReLU(),
             nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
             nn.ReLU(),
             nn.Linear(64, 1)
         )
@@ -69,7 +72,6 @@ class NNBandsOnly(BaseEstimator, RegressorMixin):
         self.model.eval()
         with torch.no_grad():
             preds = self.model(X)
-            # _, predictions = torch.max(outputs, 1)
 
         return preds.cpu().numpy()
 
