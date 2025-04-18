@@ -64,6 +64,7 @@ jobs:
         # Verify the files after cleaning
         echo "Files after cleaning:"
         find data -type f | sort
+        find data/train -name "*N*" -type f -exec ls -la {} \; | cat -A
     
     - name: Discover and evaluate models
       run: |
