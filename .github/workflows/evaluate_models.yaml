@@ -39,7 +39,7 @@ jobs:
         github_token: ${{ secrets.DATA_REPO_PAT }}
         workflow: prepare_data.yml
         name: training-data
-        repo: your-username/private-data-repo
+        repo: isaachcamp/plant-trait-data-2021
         
     - name: Extract data
       run: |
