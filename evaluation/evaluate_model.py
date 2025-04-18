@@ -65,12 +65,9 @@ def evaluate_model(model, dpath: str, var):
 
     return metrics
 
-def run_evaluation(model_path: str):
+def run_evaluation(model_path: str, dpath: str):
     """Run evaluation for a model on all datasets."""
-    dpath = Path("data").resolve()
-    print(dpath.parent)
-    print(dpath.resolve())
-    print(list(dpath.iterdir()))
+    dpath = Path(dpath).resolve()
     model_path = Path(model_path)
     if not model_path.exists():
         raise FileNotFoundError(f"Model path {model_path} does not exist.")
@@ -95,6 +92,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Evaluate a model and update the leaderboard")
     parser.add_argument("--model_path", required=True, help="Path to the model implementation file")
+    parser.add_argument("--dpath", default="data", help="Path to the data directory")
 
     args = parser.parse_args()
-    run_evaluation(args.model_path)
+    run_evaluation(args.model_path, args.dpath)
