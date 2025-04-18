@@ -42,7 +42,7 @@ class RFBandsOnly:
         # y = y.drop(index=outlier_idxs)
         # print(y.shape)
 
-        return X, y.to_numpy()
+        return X, y.to_numpy().ravel()
 
 
 def create_model(seed=None):
