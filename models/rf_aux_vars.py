@@ -16,7 +16,7 @@ class RFAuxAndBands:
     def predict(self, X):
         """Make predictions using the model."""
         return self.model.predict(X)
-    
+
     def configure_data(self, X, y):
         """Configure the data for the model."""
         # Remove outliers from the dataset
