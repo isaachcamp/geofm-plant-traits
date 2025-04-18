@@ -34,11 +34,11 @@ jobs:
 
 
     - name: Download data artifact
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v4
       with:
         github_token: ${{ secrets.DATA_REPO_PAT }}
         workflow: prepare_data.yml
-        name: training-data
+        name: data
         repo: isaachcamp/plant-trait-data-2021
         
     - name: Extract data
