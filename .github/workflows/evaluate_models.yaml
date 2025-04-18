@@ -32,7 +32,6 @@ jobs:
       run: |
         uv pip install --system -e .
 
-
     - name: Download data artifact
       uses: dawidd6/action-download-artifact@v4
       with:
@@ -76,7 +75,11 @@ jobs:
     - name: Test file read
       run: |
         echo "Trying to read file directly:"
-        head -n 1 data/train/N.percent_train_data.csv || echo "Failed to read file"
+        find data/train -name "*N*" -type f -exec basename {} \;
+        find data/train -name "*N*" -type f -exec ls -la {} \; | cat -A
+        find data/train -name "*N*" -type f -exec head -n 1 {} \;
+        find data/train -name "*N*" -type f -print0 | xargs -0 cat | head -n 1
+        # head -n 1 data/train/N.percent_train_data.csv || echo "Failed to read file"
     
     - name: Discover and evaluate models
       run: |
@@ -85,7 +88,7 @@ jobs:
           if [ -f "$model_file" ]; then
             model_name=$(basename $model_file .py)
             echo "Evaluating model: $model_name"
-            uv run evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
+            uv run --system evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
           fi
         done
     
