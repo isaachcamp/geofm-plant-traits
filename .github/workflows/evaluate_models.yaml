@@ -53,6 +53,32 @@ jobs:
         ls -la
         echo "List of files in extracted directory:"
         find . -type f | sort
+
+
+    - name: Check file permissions
+      run: |
+        echo "File permissions:"
+        stat data/train/N.percent_train_data.csv
+
+    - name: Check exact filename case
+      run: |
+        echo "Files in data/train with exact case:"
+        ls -la data/train/
+        # Look specifically for files with "N" in the name
+        find data/train -name "*N*" -type f
+
+    - name: Verify downloaded artifact
+      run: |
+        echo "Downloaded artifact size:"
+        du -sh data.zip
+        echo "Files in extracted artifact:"
+        unzip -l data.zip
+
+
+    - name: Test file read
+      run: |
+        echo "Trying to read file directly:"
+        head -n 1 data/train/N.percent_train_data.csv || echo "Failed to read file"
     
     - name: Discover and evaluate models
       run: |
