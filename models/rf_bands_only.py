@@ -17,32 +17,22 @@ BANDS = [
 ]
 
 class RFBandsOnly:
-    name = "Random Forest using only spectral bands."
+    name = "Random Forest using only spectral bands"
 
     def __init__(self, seed):
         self.model = RandomForestRegressor(n_estimators=100, random_state=seed)
 
     def fit(self, X, y):
         """Fit the model to the data."""
-        X = X[BANDS]
         return self.model.fit(X, y)
 
     def predict(self, X):
         """Make predictions using the model."""
-        X = X[BANDS]
         return self.model.predict(X)
 
     def configure_data(self, X, y):
         """Configure the data for the model."""
-        # Remove outliers from the dataset
-        # Calculates IQR for test and train data independently to remove outliers
-        # outlier_idxs = get_outlier_iqr(y, zlim=4).index
-        # print(f"Outliers: {outlier_idxs}")
-        # X = X.drop(index=outlier_idxs)
-        # y = y.drop(index=outlier_idxs)
-        # print(y.shape)
-
-        return X, y.to_numpy().ravel()
+        return X[BANDS], y.to_numpy().ravel()
 
 
 def create_model(seed=None):
