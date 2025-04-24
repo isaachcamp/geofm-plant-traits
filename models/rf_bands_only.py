@@ -1,6 +1,13 @@
 
+from typing import Tuple
+from numpy import ndarray
+from pandas import DataFrame
 from sklearn.ensemble import RandomForestRegressor
 
+from models.base_model import BaseModel
+
+
+Array = ndarray
 
 BANDS = [
     'B2_real', # Blue band, 490 nm
@@ -15,21 +22,22 @@ BANDS = [
     # 'B8a_real' # NIR band, 865 nm
 ]
 
-class RFBandsOnly:
+class RFBandsOnly(BaseModel):
     name = "Random Forest using only spectral bands"
 
     def __init__(self, seed):
+        super().__init__(seed)
         self.model = RandomForestRegressor(n_estimators=100, random_state=seed)
 
-    def fit(self, X, y, X_val, y_val):
+    def fit(self, X: Array, y: Array, X_val: Array, y_val: Array) -> None:
         """Fit the model to the data."""
         return self.model.fit(X, y)
 
-    def predict(self, X):
+    def predict(self, X: Array) -> Array:
         """Make predictions using the model."""
         return self.model.predict(X)
 
-    def configure_data(self, X, y):
+    def configure_data(self, X: DataFrame, y: Array) -> Tuple[Array, Array]:
         """Configure the data for the model."""
         return X[BANDS], y.to_numpy().ravel()
 
