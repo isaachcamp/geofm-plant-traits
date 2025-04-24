@@ -1,10 +1,16 @@
 
-from sklearn.base import BaseEstimator, RegressorMixin
+from numpy import ndarray
+from pandas import DataFrame
+from sklearn.metrics import mean_absolute_percentage_error
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
-from src.data_utils import standardise
+from models.torch_model_wrapper import TorchModel
+
+# define types
+Tensor = torch.Tensor
+Array = ndarray
 
 
 BANDS = [
@@ -20,44 +26,48 @@ BANDS = [
     # 'B8a_real' # NIR band, 865 nm
 ]
 
-class NNBandsOnly(BaseEstimator, RegressorMixin):
+class NNBandsOnly(TorchModel):
     def __init__(self, seed=None):
-        self.name = "Vanilla NN using only spectral bands"
+        self.name = "Vanilla NN using only spectral bands - no batch norm"
 
-        self.seed = seed
+        super().__init__(seed)
+
         self.model = nn.Sequential(
             nn.Linear(9, 64),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(64),
             nn.Linear(64, 128),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(128),
             nn.Linear(128, 256),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(256),
             nn.Linear(256, 128),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(128),
             nn.Linear(128, 64),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(64),
             nn.Linear(64, 1)
         )
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3, weight_decay=0.05)
         self.loss_fn = nn.MSELoss()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
 
-    def fit(self, X, y):
-        # Create DataLoader
+
+    def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
+        # Create DataLoaders
         dataset = torch.utils.data.TensorDataset(X, y)
+        val_dataset = torch.utils.data.TensorDataset(X_val, y_val)
+
         dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
+        val_dataloader = DataLoader(val_dataset, batch_size=100, shuffle=False)
 
         # Train for a fixed number of epochs
         self.model.train()
         loss_history = []
 
-        for epoch in range(100):
+        for epoch in range(300):
             running_loss = 0.
             for X_batch, y_batch in dataloader:
                 X_batch = X_batch.to(self.device)
@@ -72,17 +82,17 @@ class NNBandsOnly(BaseEstimator, RegressorMixin):
 
                 running_loss += loss.item()
 
-            # Average loss over the epoch
-            loss = running_loss / len(dataloader)
-            loss_history.append(loss)
+            # Validation
+            val_loss, val_mape = self.validation(val_dataloader)
+            loss_history.append(val_loss)
 
             # Print loss every 5 epochs
             if epoch % 5 == 0:
-                print(f"Epoch {epoch}, Loss: {loss}")
+                print(f"Epoch {epoch}, Loss: {val_loss}, MAPE: {val_mape}")
 
         return self
 
-    def predict(self, X):
+    def predict(self, X: Tensor):
         # Get predictions
         self.model.eval()
         with torch.no_grad():
@@ -90,14 +100,31 @@ class NNBandsOnly(BaseEstimator, RegressorMixin):
 
         return preds.cpu().numpy()
 
-    def configure_data(self, X, y):
+    def configure_data(self, X: DataFrame, y: DataFrame):
         """Configure the data for the model."""
         # Convert to PyTorch tensors
-        X = standardise(X[BANDS].to_numpy())
-        y = standardise(y.to_numpy().reshape(-1, 1))
-        X = torch.FloatTensor(X)
-        y = torch.FloatTensor(y)
+        X = torch.FloatTensor(X[BANDS].to_numpy())
+        y = torch.FloatTensor(y.to_numpy().reshape(-1, 1))
         return X, y
 
-def create_model():
-    return NNBandsOnly()
+    def validation(self, val_dataloader: DataLoader):
+        self.model.eval()
+        running_mse = 0
+        running_mape = 0
+        num_batches = len(val_dataloader)
+        with torch.no_grad():
+            for _, (inputs, targets) in enumerate(val_dataloader):
+                inputs = inputs.to(self.device)
+                targets = targets.float().to(self.device)
+                preds = self.model(inputs)#.flatten()
+
+                preds, targets = self.unstandardise(preds, targets)
+                running_mse += self.loss_fn(preds, targets).item()
+                running_mape += mean_absolute_percentage_error(preds, targets)
+
+        val_mse = running_mse / num_batches
+        val_mape = running_mape / num_batches
+        return val_mse, val_mape
+
+def create_model(seed=None):
+    return NNBandsOnly(seed)
