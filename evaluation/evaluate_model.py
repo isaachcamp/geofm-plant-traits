@@ -1,5 +1,6 @@
 
 import importlib.util
+import json
 from pathlib import Path
 from sklearn.metrics import (
     r2_score,
@@ -9,6 +10,7 @@ from sklearn.metrics import (
 )
 from evaluation.leaderboard_writer import update_leaderboard
 from src.data_utils import LabelledTraitData
+from models.torch_model_wrapper import TorchModel
 
 
 VARS = [
@@ -28,7 +30,7 @@ VARS = [
 ]
 
 
-def load_model(model_path: Path):
+def load_model(model_path: Path, seed: int = None):
     """Dynamically load a model from a Python file."""
     module_name = model_path.stem
     spec = importlib.util.spec_from_file_location(module_name, model_path)
@@ -36,23 +38,28 @@ def load_model(model_path: Path):
     spec.loader.exec_module(module)
 
     # Models should implement a create_model() function
-    return module.create_model()
+    return module.create_model(seed)
 
 def evaluate_model(model, dpath: str, var):
     """Evaluate a model on a specific dataset."""
     dataset = LabelledTraitData(dpath, var)
 
     X_train, y_train = dataset.train_data, dataset.train_labels
+    X_val, y_val = dataset.val_data, dataset.val_labels
     X_test, y_test = dataset.test_data, dataset.test_labels
 
     X_train, y_train = model.configure_data(X_train, y_train)
+    X_val, y_val = model.configure_data(X_val, y_val)
     X_test, y_test = model.configure_data(X_test, y_test)
 
     # Train model
-    model.fit(X_train, y_train)
+    model.fit(X_train, y_train, X_val, y_val)
 
     # Evaluate model
     y_pred = model.predict(X_test)
+
+    if isinstance(model, TorchModel):
+        y_pred, y_test = model.unstandardise(y_pred, y_test)
 
     metrics = {
         # Calculate metrics.
@@ -68,13 +75,20 @@ def run_evaluation(model_path: str, dpath: str):
     """Run evaluation for a model on all datasets."""
     dpath = Path(dpath).resolve()
     model_path = Path(model_path)
+    metadata_path = dpath / 'metadata/trait_stats.json'
+
     if not model_path.exists():
         raise FileNotFoundError(f"Model path {model_path} does not exist.")
 
     results = {}
+    with open(metadata_path, 'r') as f:
+        trait_stats = json.load(f)
 
     for var in VARS:
         model = load_model(model_path)
+        var_stats = trait_stats[var]
+        model.set_stats(var_stats)
+
         print(f"Evaluating {model.name} on {var}...")
         metrics = evaluate_model(model, dpath, var)
         results[var] = metrics
