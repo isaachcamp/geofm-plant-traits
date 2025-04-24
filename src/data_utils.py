@@ -11,6 +11,7 @@ class LabelledTraitData:
         self.data_path = data_path
         self.var = var
         self.load_data()
+        self.standardise()
 
     def load_data(self):
         """Load the trait data from a CSV file."""
@@ -43,6 +44,24 @@ class LabelledTraitData:
         self.test_labels = pd.read_csv(
             self.data_path / 'test' / f'{self.var}_test_labels.csv',
             index_col=0
+        )
+
+    @staticmethod
+    def _standardise(train, val, test):
+        train_idx, val_idx, test_idx = train.index, val.index, test.index
+
+        df = pd.concat([train, val, test])
+        std_df = (df - df.mean(axis=0)) / df.std(axis=0)
+
+        return std_df.loc[train_idx], std_df.loc[val_idx], std_df.loc[test_idx]
+
+    def standardise(self):
+        """Standardise both predictors and targets."""
+        self.train_data, self.val_data, self.test_data = self._standardise(
+            self.train_data, self.val_data, self.test_data
+        )
+        self.train_labels, self.val_labels, self.test_labels = self._standardise(
+            self.train_labels, self.val_labels, self.test_labels
         )
 
 
