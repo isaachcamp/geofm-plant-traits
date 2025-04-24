@@ -1,4 +1,5 @@
 
+from typing import Tuple
 from numpy import ndarray
 from pandas import DataFrame
 from sklearn.metrics import mean_absolute_percentage_error
@@ -89,22 +90,22 @@ class NNBandsOnly(BaseModel):
 
         return self
 
-    def predict(self, X: Tensor):
+    def predict(self, X: Tensor) -> Tensor:
         # Get predictions
         self.model.eval()
         with torch.no_grad():
             preds = self.model(X)
 
-        return preds.cpu().numpy()
+        return preds.cpu()
 
-    def configure_data(self, X: DataFrame, y: DataFrame):
+    def configure_data(self, X: DataFrame, y: DataFrame) -> Tuple[Tensor]:
         """Configure the data for the model."""
         # Convert to PyTorch tensors
         X = torch.FloatTensor(X[BANDS].to_numpy())
         y = torch.FloatTensor(y.to_numpy().reshape(-1, 1))
         return X, y
 
-    def validation(self, inputs: Tensor, targets: Tensor):
+    def validation(self, inputs: Tensor, targets: Tensor) -> Tuple[float]:
         self.model.eval()
 
         with torch.no_grad():

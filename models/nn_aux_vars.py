@@ -1,42 +1,49 @@
 
-from sklearn.base import BaseEstimator, RegressorMixin
+from typing import Tuple
+from numpy import ndarray
+from pandas import DataFrame
+from sklearn.metrics import mean_absolute_percentage_error
 import torch
-from torch import nn
+import torch.nn as nn
 from torch.utils.data import DataLoader
 
-from src.data_utils import standardise
+from models.base_model import BaseModel
+
+# define types
+Tensor = torch.Tensor
+Array = ndarray
 
 
-class NNAuxAndBands(BaseEstimator, RegressorMixin):
+class NNAuxAndBands(BaseModel):
     def __init__(self, seed=None):
         self.name = "NN using spectral bands and auxiliary variables"
 
-        self.seed = seed
+        super().__init__(seed)
+
         self.model = nn.Sequential(
             nn.Linear(26, 64),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(64),
             nn.Linear(64, 128),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(128),
             nn.Linear(128, 256),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(256),
             nn.Linear(256, 128),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(128),
             nn.Linear(128, 64),
-            nn.GELU(),
+            nn.ReLU(),
             nn.BatchNorm1d(64),
             nn.Linear(64, 1)
         )
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
         self.loss_fn = nn.MSELoss()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
 
-    def fit(self, X, y):
-        # Create DataLoader
+    def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
+        # Create DataLoaders
         dataset = torch.utils.data.TensorDataset(X, y)
         dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
 
@@ -44,47 +51,59 @@ class NNAuxAndBands(BaseEstimator, RegressorMixin):
         self.model.train()
         loss_history = []
 
-        for epoch in range(100):
+        for epoch in range(300):
             running_loss = 0.
-            for X_batch, y_batch in dataloader:
-                X_batch = X_batch.to(self.device)
-                y_batch = y_batch.to(self.device)
+            for inputs, targets in dataloader:
+                inputs = inputs.to(self.device)
+                targets = targets.to(self.device)
 
                 # Zero gradients, forward pass, backward pass, optimize
                 self.optimizer.zero_grad()
-                outputs = self.model(X_batch)
-                loss = self.loss_fn(outputs, y_batch)
+                outputs = self.model(inputs)
+                loss = self.loss_fn(outputs, targets)
                 loss.backward()
                 self.optimizer.step()
 
                 running_loss += loss.item()
 
-            # Average loss over the epoch
-            loss = running_loss / len(dataloader)
-            loss_history.append(loss)
+            # Validation
+            val_loss, val_mape = self.validation(X_val, y_val)
+            loss_history.append(val_loss)
 
             # Print loss every 5 epochs
             if epoch % 5 == 0:
-                print(f"Epoch {epoch}, Loss: {loss}")
+                print(f"Epoch {epoch}, Loss: {val_loss}, MAPE: {val_mape}")
 
         return self
 
-    def predict(self, X):
+    def predict(self, X: Tensor) -> Tensor:
         # Get predictions
         self.model.eval()
         with torch.no_grad():
             preds = self.model(X)
+        return preds.cpu()
 
-        return preds.cpu().numpy()
-
-    def configure_data(self, X, y):
+    def configure_data(self, X: DataFrame, y: DataFrame) -> Tuple[Tensor]:
         """Configure the data for the model."""
         # Convert to PyTorch tensors
-        X = standardise(X.to_numpy(), axis=0)
-        y = standardise(y.to_numpy().reshape(-1, 1))
-        X = torch.FloatTensor(X)
-        y = torch.FloatTensor(y)
+        X = torch.FloatTensor(X.to_numpy())
+        y = torch.FloatTensor(y.to_numpy().reshape(-1, 1))
         return X, y
 
-def create_model():
-    return NNAuxAndBands()
+    def validation(self, inputs: Tensor, targets: Tensor) -> Tuple[float]:
+        self.model.eval()
+
+        with torch.no_grad():
+            inputs = inputs.to(self.device)
+            targets = targets.float().to(self.device)
+            preds = self.model(inputs)
+
+            preds, targets = self.unstandardise(preds, targets)
+
+        val_loss = self.loss_fn(preds, targets).item()
+        val_mape = mean_absolute_percentage_error(preds, targets)
+
+        return val_loss, val_mape
+
+def create_model(seed=None):
+    return NNAuxAndBands(seed)
