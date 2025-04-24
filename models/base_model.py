@@ -3,23 +3,30 @@ from typing import Dict
 from numpy import ndarray
 from sklearn.base import BaseEstimator, RegressorMixin
 import torch
-from torch.utils.data import DataLoader
+
 
 # define types
 Tensor = torch.Tensor
 Array = ndarray
 
 
-class TorchModel(BaseEstimator, RegressorMixin):
-    def __init__(self, seed=None):
+class BaseModel(BaseEstimator, RegressorMixin):
+    def __init__(self, seed):
+        super().__init__()
         self.seed = seed
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.stats = None
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
+    def fit(
+            self,
+            X: Tensor | Array,
+            y: Tensor | Array,
+            X_val: Tensor | Array,
+            y_val: Tensor | Array
+    ) -> None:
         """Model training loop."""
 
-    def predict(self, X: Tensor):
+    def predict(self, X: Tensor | Array):
         """Model forward pass to make predictions."""
 
     def set_stats(self, stats: Dict[str, float]):
@@ -36,5 +43,5 @@ class TorchModel(BaseEstimator, RegressorMixin):
         targets = self._unstandardise(targets, self.stats['mean'], self.stats['std'])
         return preds, targets
 
-    def validation(self, val_dataloader: DataLoader):
+    def validation(self, inputs: Tensor, targets: Tensor):
         """Validate model not over-fitting."""
