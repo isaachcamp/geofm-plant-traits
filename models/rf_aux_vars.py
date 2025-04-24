@@ -9,7 +9,7 @@ class RFAuxAndBands:
     def __init__(self, seed):
         self.model = RandomForestRegressor(n_estimators=100, random_state=seed)
 
-    def fit(self, X, y):
+    def fit(self, X, y, X_val, y_val):
         """Fit the model to the data."""
         return self.model.fit(X, y)
 
@@ -19,14 +19,6 @@ class RFAuxAndBands:
 
     def configure_data(self, X, y):
         """Configure the data for the model."""
-        # Remove outliers from the dataset
-        # Calculates IQR for test and train data independently to remove outliers
-        # outlier_idxs = get_outlier_iqr(y, zlim=4).index
-        # print(f"Outliers: {outlier_idxs}")
-        # X = X.drop(index=outlier_idxs)
-        # y = y.drop(index=outlier_idxs)
-        # print(y.shape)
-
         return X, y.to_numpy().ravel()
 
 
