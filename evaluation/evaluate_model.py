@@ -10,7 +10,6 @@ from sklearn.metrics import (
 )
 from evaluation.leaderboard_writer import update_leaderboard
 from src.data_utils import LabelledTraitData
-from models.torch_model_wrapper import TorchModel
 
 
 VARS = [
@@ -52,17 +51,16 @@ def evaluate_model(model, dpath: str, var):
     X_val, y_val = model.configure_data(X_val, y_val)
     X_test, y_test = model.configure_data(X_test, y_test)
 
-    # Train model
+    # Train model.
     model.fit(X_train, y_train, X_val, y_val)
 
-    # Evaluate model
+    # Evaluate model.
     y_pred = model.predict(X_test)
 
-    if isinstance(model, TorchModel):
-        y_pred, y_test = model.unstandardise(y_pred, y_test)
+    y_pred, y_test = model.unstandardise(y_pred, y_test)
 
+    # Calculate metrics.
     metrics = {
-        # Calculate metrics.
         "R_squared": r2_score(y_test, y_pred),
         "RMSE": root_mean_squared_error(y_test, y_pred),
         "MAE": mean_absolute_error(y_test, y_pred),
