@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
-from models.torch_model_wrapper import TorchModel
+from models.base_model import BaseModel
 
 # define types
 Tensor = torch.Tensor
@@ -26,9 +26,9 @@ BANDS = [
     # 'B8a_real' # NIR band, 865 nm
 ]
 
-class NNBandsOnly(TorchModel):
+class NNBandsOnly(BaseModel):
     def __init__(self, seed=None):
-        self.name = "Vanilla NN using only spectral bands - no batch norm"
+        self.name = "Vanilla NN using only spectral bands"
 
         super().__init__(seed)
 
@@ -58,10 +58,7 @@ class NNBandsOnly(TorchModel):
     def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
         # Create DataLoaders
         dataset = torch.utils.data.TensorDataset(X, y)
-        val_dataset = torch.utils.data.TensorDataset(X_val, y_val)
-
         dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
-        val_dataloader = DataLoader(val_dataset, batch_size=100, shuffle=False)
 
         # Train for a fixed number of epochs
         self.model.train()
@@ -83,7 +80,7 @@ class NNBandsOnly(TorchModel):
                 running_loss += loss.item()
 
             # Validation
-            val_loss, val_mape = self.validation(val_dataloader)
+            val_loss, val_mape = self.validation(X_val, y_val)
             loss_history.append(val_loss)
 
             # Print loss every 5 epochs
@@ -107,24 +104,20 @@ class NNBandsOnly(TorchModel):
         y = torch.FloatTensor(y.to_numpy().reshape(-1, 1))
         return X, y
 
-    def validation(self, val_dataloader: DataLoader):
+    def validation(self, inputs: Tensor, targets: Tensor):
         self.model.eval()
-        running_mse = 0
-        running_mape = 0
-        num_batches = len(val_dataloader)
+
         with torch.no_grad():
-            for _, (inputs, targets) in enumerate(val_dataloader):
-                inputs = inputs.to(self.device)
-                targets = targets.float().to(self.device)
-                preds = self.model(inputs)#.flatten()
+            inputs = inputs.to(self.device)
+            targets = targets.float().to(self.device)
+            preds = self.model(inputs)
 
-                preds, targets = self.unstandardise(preds, targets)
-                running_mse += self.loss_fn(preds, targets).item()
-                running_mape += mean_absolute_percentage_error(preds, targets)
+            preds, targets = self.unstandardise(preds, targets)
 
-        val_mse = running_mse / num_batches
-        val_mape = running_mape / num_batches
-        return val_mse, val_mape
+        val_loss = self.loss_fn(preds, targets).item()
+        val_mape = mean_absolute_percentage_error(preds, targets)
+
+        return val_loss, val_mape
 
 def create_model(seed=None):
     return NNBandsOnly(seed)
