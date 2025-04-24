@@ -1,7 +1,6 @@
 
-
 from sklearn.ensemble import RandomForestRegressor
-from src.data_utils import get_outlier_iqr
+
 
 BANDS = [
     'B2_real', # Blue band, 490 nm
@@ -22,7 +21,7 @@ class RFBandsOnly:
     def __init__(self, seed):
         self.model = RandomForestRegressor(n_estimators=100, random_state=seed)
 
-    def fit(self, X, y):
+    def fit(self, X, y, X_val, y_val):
         """Fit the model to the data."""
         return self.model.fit(X, y)
 
