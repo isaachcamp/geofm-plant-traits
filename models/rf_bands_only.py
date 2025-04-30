@@ -27,7 +27,13 @@ class RFBandsOnly(BaseModel):
 
     def __init__(self, seed):
         super().__init__(seed)
-        self.model = RandomForestRegressor(n_estimators=100, random_state=seed)
+        self.model = RandomForestRegressor(
+            n_estimators=100,
+            max_depth=15,
+            max_features=0.5,
+            min_samples_leaf=1,
+            random_state=seed
+        )
 
     def fit(self, X: Array, y: Array, X_val: Array, y_val: Array) -> None:
         """Fit the model to the data."""
@@ -37,7 +43,8 @@ class RFBandsOnly(BaseModel):
         """Make predictions using the model."""
         return self.model.predict(X)
 
-    def configure_data(self, X: DataFrame, y: Array) -> Tuple[Array, Array]:
+    @staticmethod
+    def configure_data(X: DataFrame, y: Array) -> Tuple[Array, Array]:
         """Configure the data for the model."""
         return X[BANDS], y.to_numpy().ravel()
 
