@@ -33,8 +33,8 @@ class NNSnapshotEnsembleBandsOnly(BaseModel):
     def __init__(self, seed):
         self.name = "Snapshot Ensemble NN using only spectral bands"
 
-        self.total_epochs = 3000
-        self.total_snapshots = 30
+        self.total_epochs = 1000
+        self.total_snapshots = 10
         self.lr_max = 1e-3
         self.snapshots = []
 
