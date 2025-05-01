@@ -9,7 +9,7 @@ on:
   pull_request:
     paths:
       - 'models/**'
-  workflow_dispatch:  # Allow manual triggering
+  # workflow_dispatch:  # Allow manual triggering
 
 permissions:
   contents: write  # Write access to the repository contents
