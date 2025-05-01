@@ -20,6 +20,14 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 2 # Important to get the previous commit timestamp
+
+    - name: Get last commit timestamp
+      id: last_commit
+      run: |
+        LAST_COMMIT_TIMESTAMP=$(git log -1 --format=%ct)
+        echo "LAST_COMMIT_TIMESTAMP=$LAST_COMMIT_TIMESTAMP" >> $GITHUB_OUTPUT
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -50,16 +58,24 @@ jobs:
     
     - name: Discover and evaluate models
       run: |
-        # Find all model files
+        # Find all model files, but ignore unchanged files
+
+        echo "Last commit timestamp: ${{ steps.last_commit.outputs.LAST_COMMIT_TIMESTAMP }}"
+        echo "Model files to check: ${{ steps.find_models.outputs.MODEL_FILES }}"
+
         for model_file in models/*.py; do
           # Skip __init__.py and base_model.py files
           if [[ "$model_file" == *"__init__.py"* || "$model_file" == *"base_model.py"* ]]; then
             continue
           fi
           if [ -f "$model_file" ]; then
-            model_name=$(basename $model_file .py)
-            echo "Evaluating model: $model_name"
-            python evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
+            MODEL_MODIFIED_TIMESTAMP=$(date -r "$model_file" +%s)
+            echo "Checking $model_file - Modified: $MODEL_MODIFIED_TIMESTAMP, Last Commit: ${{ steps.last_commit.outputs.LAST_COMMIT_TIMESTAMP }}"
+            if [[ "$MODEL_MODIFIED_TIMESTAMP" -gt "${{ steps.last_commit.outputs.LAST_COMMIT_TIMESTAMP }}" ]]; then
+              model_name=$(basename $model_file .py)
+              echo "Evaluating model: $model_name"
+              python evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
+            fi
           fi
         done
     
