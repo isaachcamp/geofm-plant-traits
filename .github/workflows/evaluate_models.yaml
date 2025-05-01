@@ -23,16 +23,12 @@ jobs:
       with:
         fetch-depth: 2 # Important to get the previous commit timestamp
 
-    - name: List files after checkout
-      run: |
-        echo "--- Files after Checkout ---"
-        ls -lR models
 
-    - name: Get last commit timestamp
-      id: last_commit
+    - name: Get modified model files
+      id: modified_files
       run: |
-        LAST_COMMIT_TIMESTAMP=$(git log -1 --format=%ct)
-        echo "LAST_COMMIT_TIMESTAMP=$LAST_COMMIT_TIMESTAMP" >> $GITHUB_OUTPUT
+        MODIFIED_MODELS=$(echo '${{ github.event.commits.*.modified }}' | jq -c 'flatten' | jq -r '.[]' | grep '^models/' | jq -sc .)
+        echo "MODIFIED_MODELS=$MODIFIED_MODELS" >> $GITHUB_OUTPUT
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -67,19 +63,19 @@ jobs:
 
         echo "Last commit timestamp: ${{ steps.last_commit.outputs.LAST_COMMIT_TIMESTAMP }}"
 
-        for model_file in models/*.py; do
+        MODELS_JSON="${{ steps.modified_files.outputs.MODIFIED_MODELS }}"
+        echo "Modified model files (JSON): $MODELS_JSON"
+        if [[ -n "$MODELS_JSON" ]]; then
+          IFS=',' read -ra MODELS <<< "$(echo "$MODELS_JSON" | jq -r '.[]' | tr '\n' ',')"
+        for model_file in "${MODELS[@]}"; do
           # Skip __init__.py and base_model.py files
           if [[ "$model_file" == *"__init__.py"* || "$model_file" == *"base_model.py"* ]]; then
             continue
           fi
           if [ -f "$model_file" ]; then
-            MODEL_MODIFIED_TIMESTAMP=$(date -r "$model_file" +%s)
-            echo "Checking $model_file - Modified: $MODEL_MODIFIED_TIMESTAMP, Last Commit: ${{ steps.last_commit.outputs.LAST_COMMIT_TIMESTAMP }}"
-            if [[ "$MODEL_MODIFIED_TIMESTAMP" -gt "${{ steps.last_commit.outputs.LAST_COMMIT_TIMESTAMP }}" ]]; then
-              model_name=$(basename $model_file .py)
-              echo "Evaluating model: $model_name"
-              python evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
-            fi
+            model_name=$(basename $model_file .py)
+            echo "Evaluating model: $model_name"
+            python evaluation/evaluate_model.py --model_path "$model_file" --dpath "${{ github.workspace }}/data"
           fi
         done
     
