@@ -59,7 +59,7 @@ class NNBandsOnly(BaseModel):
     def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
         # Create DataLoaders
         dataset = torch.utils.data.TensorDataset(X, y)
-        dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
+        dataloader = DataLoader(dataset, batch_size=36, shuffle=True)
 
         # Train for a fixed number of epochs
         self.model.train()
