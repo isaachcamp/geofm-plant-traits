@@ -35,20 +35,20 @@ class NNBandsOnly(BaseModel):
 
         self.model = nn.Sequential(
             nn.Linear(9, 64),
-            nn.ReLU(),
             nn.BatchNorm1d(64),
+            nn.ReLU(),
             nn.Linear(64, 128),
-            nn.ReLU(),
             nn.BatchNorm1d(128),
+            nn.ReLU(),
             nn.Linear(128, 256),
-            nn.ReLU(),
             nn.BatchNorm1d(256),
+            nn.ReLU(),
             nn.Linear(256, 128),
-            nn.ReLU(),
             nn.BatchNorm1d(128),
-            nn.Linear(128, 64),
             nn.ReLU(),
+            nn.Linear(128, 64),
             nn.BatchNorm1d(64),
+            nn.ReLU(),
             nn.Linear(64, 1)
         )
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3, weight_decay=0.05)
