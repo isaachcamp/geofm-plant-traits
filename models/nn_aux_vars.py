@@ -38,14 +38,14 @@ class NNAuxAndBands(BaseModel):
             nn.ReLU(),
             nn.Linear(64, 1)
         )
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3, weight_decay=0.05)
         self.loss_fn = nn.MSELoss()
         self.model.to(self.device)
 
     def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
         # Create DataLoaders
         dataset = torch.utils.data.TensorDataset(X, y)
-        dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
+        dataloader = DataLoader(dataset, batch_size=36, shuffle=True)
 
         # Train for a fixed number of epochs
         self.model.train()
@@ -98,9 +98,10 @@ class NNAuxAndBands(BaseModel):
             targets = targets.float().to(self.device)
             preds = self.model(inputs)
 
-            preds, targets = self.unstandardise(preds, targets)
-
         val_loss = self.loss_fn(preds, targets).item()
+
+        # Unstandardise the predictions and targets for MAPE calculation
+        preds, targets = self.unstandardise(preds, targets)
         val_mape = mean_absolute_percentage_error(preds, targets)
 
         return val_loss, val_mape

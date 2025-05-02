@@ -113,9 +113,10 @@ class NNBandsOnly(BaseModel):
             targets = targets.float().to(self.device)
             preds = self.model(inputs)
 
-            preds, targets = self.unstandardise(preds, targets)
-
         val_loss = self.loss_fn(preds, targets).item()
+
+        # Unstandardise the predictions and targets for MAPE calculation
+        preds, targets = self.unstandardise(preds, targets)
         val_mape = mean_absolute_percentage_error(preds, targets)
 
         return val_loss, val_mape

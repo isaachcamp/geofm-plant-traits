@@ -33,8 +33,8 @@ class NNSnapshotEnsembleBandsOnly(BaseModel):
     def __init__(self, seed):
         self.name = "Snapshot Ensemble NN using only spectral bands"
 
-        self.total_epochs = 1000
-        self.total_snapshots = 10
+        self.total_epochs = 3000
+        self.total_snapshots = 30
         self.lr_max = 1e-3
         self.snapshots = []
 
@@ -140,9 +140,10 @@ class NNSnapshotEnsembleBandsOnly(BaseModel):
             targets = targets.float().to(self.device)
             preds = self.model(inputs)
 
-            preds, targets = self.unstandardise(preds, targets)
-
         val_loss = self.loss_fn(preds, targets).item()
+
+        # Unstandardise the predictions and targets for MAPE calculation
+        preds, targets = self.unstandardise(preds, targets)
         val_mape = mean_absolute_percentage_error(preds, targets)
 
         return val_loss, val_mape
