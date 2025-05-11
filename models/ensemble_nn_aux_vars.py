@@ -19,13 +19,14 @@ class NNEnsembleAuxAndBands(BaseModel):
 
         # Create an ensemble of models, initializing each with different weights.
         self.total_models = 30
-        self.models = [NNAuxAndBands(seed) for _ in range(self.total_models)]
+        self.models = [NNAuxAndBands(seed, var) for _ in range(self.total_models)]
 
         super().__init__(seed)
 
     def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
         for i, model in enumerate(self.models):
             print(f"Model {i} - Training...")
+            model.set_stats(self.stats)
             model.fit(X, y, X_val, y_val)
 
         return self
