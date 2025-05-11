@@ -10,16 +10,17 @@ from models.base_model import BaseModel
 Array = ndarray
 
 
-class GBDTBandsOnly(BaseModel):
+class GBDTAuxAndBands(BaseModel):
     name = "Gradient boosted decision trees using spectral bands and auxiliary variables"
 
     def __init__(self, seed, var):
         super().__init__(seed)
         self.model = GradientBoostingRegressor(
-            n_estimators=100,
+            n_estimators=300,
             learning_rate=0.05,
             random_state=seed,
-            loss='squared_error'
+            max_features="sqrt",
+            subsample=0.8,
         )
 
     def fit(self, X: Array, y: Array, X_val: Array, y_val: Array) -> None:
@@ -36,6 +37,6 @@ class GBDTBandsOnly(BaseModel):
         return X.to_numpy(), y.to_numpy().ravel()
 
 
-def create_model(seed=None, var=None) -> GBDTBandsOnly:
+def create_model(seed=None, var=None) -> GBDTAuxAndBands:
     """Create and return a model instance."""
-    return GBDTBandsOnly(seed, var)
+    return GBDTAuxAndBands(seed, var)
