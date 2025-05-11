@@ -199,4 +199,3 @@ Last updated: 2025-05-08 13:53:42
 | 7 | Snapshot Ensemble NN using only spectral bands | 0.2027 | 0.0022 | 0.0015 | 15.4130 |
 | 8 | Vanilla NN using only spectral bands | 0.1750 | 0.0022 | 0.0015 | 15.5277 |
 | 9 | CNN using only spectral bands | 0.1464 | 0.0022 | 0.0016 | 16.6547 |
-
