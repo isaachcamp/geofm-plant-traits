@@ -137,4 +137,4 @@ class NNSnapshotEnsembleAuxAndBands(BaseModel):
 
 
 def create_model(seed=None, var=None):
-    return NNSnapshotEnsembleAuxAndBands(seed=seed)
+    return NNSnapshotEnsembleAuxAndBands(seed, var)
