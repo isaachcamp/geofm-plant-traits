@@ -1,8 +1,8 @@
 
+import math
 from typing import Tuple
 from numpy import ndarray
 from pandas import DataFrame
-import math
 from sklearn.metrics import mean_absolute_percentage_error
 import torch
 from torch.utils.data import DataLoader
@@ -16,21 +16,8 @@ Tensor = torch.Tensor
 Array = ndarray
 
 
-BANDS = [
-    'B2_real', # Blue band, 490 nm
-    'B3_real', # Green band, 560 nm
-    'B4_real', # Red band, 665 nm
-    'B5_real', # Red edge band, 705 nm
-    'B6_real', # Red edge band, 740 nm
-    'B7_real', # Red edge band, 783 nm
-    'B8_real', # NIR band, 842 nm
-    'B11_real', # SWIR band, 1610 nm
-    'B12_real' # SWIR band, 2190 nm
-    # 'B8a_real' # NIR band, 865 nm
-]
-
-class NNSnapshotEnsembleBandsOnly(BaseModel):
-    def __init__(self, seed):
+class NNSnapshotEnsembleAuxAndBands(BaseModel):
+    def __init__(self, seed, var):
         self.name = "Snapshot Ensemble NN using only spectral bands"
 
         self.total_epochs = 3000
@@ -41,7 +28,7 @@ class NNSnapshotEnsembleBandsOnly(BaseModel):
         super().__init__(seed)
 
         self.model = nn.Sequential(
-            nn.Linear(9, 64),
+            nn.Linear(26, 64),
             nn.BatchNorm1d(64),
             nn.ReLU(),
             nn.Linear(64, 128),
@@ -128,7 +115,7 @@ class NNSnapshotEnsembleBandsOnly(BaseModel):
     def configure_data(self, X: DataFrame, y: DataFrame) -> Tuple[Tensor]:
         """Configure the data for the model."""
         # Convert to PyTorch tensors
-        X = torch.FloatTensor(X[BANDS].to_numpy())
+        X = torch.FloatTensor(X.to_numpy())
         y = torch.FloatTensor(y.to_numpy().reshape(-1, 1))
         return X, y
 
@@ -149,5 +136,5 @@ class NNSnapshotEnsembleBandsOnly(BaseModel):
         return val_loss, val_mape
 
 
-def create_model(seed=None):
-    return NNSnapshotEnsembleBandsOnly(seed=seed)
+def create_model(seed=None, var=None):
+    return NNSnapshotEnsembleAuxAndBands(seed=seed)
