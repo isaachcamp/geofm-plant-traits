@@ -1,19 +1,22 @@
 # Machine Learning Models Leaderboard
 
-Last updated: 2025-05-02 16:39:59
+Last updated: 2025-05-11 21:46:32
 
 ## Overall Rankings
 
 | Rank | Model | Author | Mean $R^2$ Score | Last Updated |
 |------|-------|--------|--------------|-------------|
-| 1 | Random Forest using spectral bands and auxiliary variables | isaachcamp | 0.5398 | 2025-05-02 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | isaachcamp | 0.5087 | 2025-05-02 |
-| 3 | NN using spectral bands and auxiliary variables | isaachcamp | 0.4965 | 2025-05-02 |
-| 4 | Random Forest using only spectral bands | isaachcamp | 0.4271 | 2025-05-02 |
-| 5 | Gradient boosted decision trees using only spectral bands | isaachcamp | 0.3826 | 2025-05-02 |
-| 6 | Snapshot Ensemble NN using only spectral bands | isaachcamp | 0.3779 | 2025-05-02 |
-| 7 | Vanilla NN using only spectral bands | isaachcamp | 0.3727 | 2025-05-02 |
-| 8 | CNN using only spectral bands | isaachcamp | 0.3563 | 2025-05-02 |
+| 1 | Random Forest using spectral bands and auxiliary variables | isaachcamp | 0.5389 | 2025-05-11 |
+| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | isaachcamp | 0.5186 | 2025-05-11 |
+| 3 | Geographic Random Forest – bands and aux vars | isaachcamp | 0.5141 | 2025-05-11 |
+| 4 | Ensemble NN – bands and aux vars | isaachcamp | 0.5028 | 2025-05-11 |
+| 5 | Snapshot Ensemble NN using only spectral bands | isaachcamp | 0.4887 | 2025-05-11 |
+| 6 | NN using spectral bands and auxiliary variables | isaachcamp | 0.4874 | 2025-05-11 |
+| 7 | Geographic Random Forest – bands only | isaachcamp | 0.4317 | 2025-05-11 |
+| 8 | Random Forest using only spectral bands | isaachcamp | 0.4279 | 2025-05-11 |
+| 9 | Gradient boosted decision trees using only spectral bands | isaachcamp | 0.4040 | 2025-05-11 |
+| 10 | Vanilla NN using only spectral bands | isaachcamp | 0.3601 | 2025-05-11 |
+| 11 | CNN using only spectral bands | isaachcamp | 0.3495 | 2025-05-11 |
 
 ## Detailed Results
 
@@ -21,168 +24,207 @@ Last updated: 2025-05-02 16:39:59
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.7457 | 0.2592 | 0.1960 | 9.9115 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.7214 | 0.2713 | 0.2064 | 10.4912 |
-| 3 | NN using spectral bands and auxiliary variables | 0.7192 | 0.2724 | 0.2028 | 10.1550 |
-| 4 | Random Forest using only spectral bands | 0.6587 | 0.3003 | 0.2366 | 12.2785 |
-| 5 | CNN using only spectral bands | 0.6304 | 0.3125 | 0.2483 | 13.1183 |
-| 6 | Vanilla NN using only spectral bands | 0.6260 | 0.3144 | 0.2489 | 13.0607 |
-| 7 | Gradient boosted decision trees using only spectral bands | 0.6250 | 0.3148 | 0.2485 | 12.9837 |
-| 8 | Snapshot Ensemble NN using only spectral bands | 0.6218 | 0.3161 | 0.2512 | 13.2626 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.7506 | 0.2567 | 0.1949 | 9.8471 |
+| 2 | Geographic Random Forest – bands and aux vars | 0.7460 | 0.2591 | 0.1987 | 10.0430 |
+| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.7262 | 0.2690 | 0.2029 | 10.2787 |
+| 4 | NN using spectral bands and auxiliary variables | 0.7246 | 0.2698 | 0.2011 | 10.1142 |
+| 5 | Snapshot Ensemble NN using only spectral bands | 0.7237 | 0.2702 | 0.2029 | 10.3505 |
+| 6 | Ensemble NN – bands and aux vars | 0.7233 | 0.2704 | 0.2031 | 10.2969 |
+| 7 | Random Forest using only spectral bands | 0.6694 | 0.2956 | 0.2339 | 12.0994 |
+| 8 | Geographic Random Forest – bands only | 0.6600 | 0.2998 | 0.2303 | 11.8143 |
+| 9 | Gradient boosted decision trees using only spectral bands | 0.6400 | 0.3084 | 0.2392 | 12.4507 |
+| 10 | Vanilla NN using only spectral bands | 0.6277 | 0.3137 | 0.2493 | 13.1607 |
+| 11 | CNN using only spectral bands | 0.6145 | 0.3192 | 0.2519 | 13.2497 |
 
 ### P.PERCENT
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.6518 | 0.0196 | 0.0134 | 14.1302 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.6437 | 0.0198 | 0.0140 | 15.1686 |
-| 3 | NN using spectral bands and auxiliary variables | 0.6392 | 0.0199 | 0.0142 | 15.2805 |
-| 4 | Random Forest using only spectral bands | 0.5010 | 0.0234 | 0.0167 | 18.3791 |
-| 5 | Vanilla NN using only spectral bands | 0.4609 | 0.0243 | 0.0182 | 19.9756 |
-| 6 | Snapshot Ensemble NN using only spectral bands | 0.4049 | 0.0256 | 0.0191 | 21.3094 |
-| 7 | Gradient boosted decision trees using only spectral bands | 0.3964 | 0.0258 | 0.0189 | 21.0946 |
-| 8 | CNN using only spectral bands | 0.3835 | 0.0260 | 0.0198 | 22.5546 |
+| 1 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.6548 | 0.0195 | 0.0139 | 14.7650 |
+| 2 | Ensemble NN – bands and aux vars | 0.6461 | 0.0197 | 0.0141 | 15.3800 |
+| 3 | Random Forest using spectral bands and auxiliary variables | 0.6450 | 0.0198 | 0.0134 | 14.1267 |
+| 4 | Snapshot Ensemble NN using only spectral bands | 0.6399 | 0.0199 | 0.0141 | 15.2333 |
+| 5 | NN using spectral bands and auxiliary variables | 0.6308 | 0.0201 | 0.0150 | 16.7853 |
+| 6 | Geographic Random Forest – bands and aux vars | 0.6255 | 0.0203 | 0.0137 | 14.3824 |
+| 7 | Geographic Random Forest – bands only | 0.5474 | 0.0223 | 0.0156 | 16.5210 |
+| 8 | Random Forest using only spectral bands | 0.4785 | 0.0239 | 0.0170 | 18.6200 |
+| 9 | Gradient boosted decision trees using only spectral bands | 0.4416 | 0.0248 | 0.0182 | 20.1518 |
+| 10 | Vanilla NN using only spectral bands | 0.4313 | 0.0250 | 0.0182 | 18.9334 |
+| 11 | CNN using only spectral bands | 0.4088 | 0.0255 | 0.0193 | 21.4053 |
 
 ### K.PERCENT
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.5105 | 0.2331 | 0.1612 | 19.3171 |
-| 2 | NN using spectral bands and auxiliary variables | 0.4832 | 0.2395 | 0.1692 | 20.3982 |
-| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4730 | 0.2419 | 0.1673 | 20.0311 |
-| 4 | Snapshot Ensemble NN using only spectral bands | 0.3944 | 0.2593 | 0.1820 | 22.3530 |
-| 5 | Random Forest using only spectral bands | 0.3906 | 0.2601 | 0.1794 | 21.5917 |
-| 6 | Vanilla NN using only spectral bands | 0.3774 | 0.2629 | 0.1878 | 23.6518 |
-| 7 | Gradient boosted decision trees using only spectral bands | 0.3603 | 0.2665 | 0.1855 | 22.7667 |
-| 8 | CNN using only spectral bands | 0.3076 | 0.2773 | 0.1927 | 23.5754 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.5134 | 0.2324 | 0.1618 | 19.4324 |
+| 2 | Snapshot Ensemble NN using only spectral bands | 0.4984 | 0.2360 | 0.1676 | 20.4683 |
+| 3 | Ensemble NN – bands and aux vars | 0.4799 | 0.2403 | 0.1694 | 20.4591 |
+| 4 | Geographic Random Forest – bands and aux vars | 0.4783 | 0.2407 | 0.1650 | 19.6623 |
+| 5 | NN using spectral bands and auxiliary variables | 0.4749 | 0.2415 | 0.1705 | 20.5353 |
+| 6 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4681 | 0.2430 | 0.1696 | 20.2318 |
+| 7 | Vanilla NN using only spectral bands | 0.3962 | 0.2589 | 0.1788 | 21.6244 |
+| 8 | Geographic Random Forest – bands only | 0.3961 | 0.2589 | 0.1801 | 21.3266 |
+| 9 | Random Forest using only spectral bands | 0.3839 | 0.2615 | 0.1788 | 21.5971 |
+| 10 | CNN using only spectral bands | 0.3580 | 0.2670 | 0.1885 | 23.3729 |
+| 11 | Gradient boosted decision trees using only spectral bands | 0.3543 | 0.2677 | 0.1859 | 22.5117 |
 
 ### CA.PERCENT
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.8159 | 0.2051 | 0.1438 | 26.2132 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.8005 | 0.2134 | 0.1529 | 31.2352 |
-| 3 | NN using spectral bands and auxiliary variables | 0.7748 | 0.2268 | 0.1639 | 33.4427 |
-| 4 | Random Forest using only spectral bands | 0.7600 | 0.2341 | 0.1714 | 36.9248 |
-| 5 | Gradient boosted decision trees using only spectral bands | 0.7104 | 0.2571 | 0.1944 | 45.6706 |
-| 6 | Snapshot Ensemble NN using only spectral bands | 0.6605 | 0.2784 | 0.2100 | 50.7003 |
-| 7 | CNN using only spectral bands | 0.6591 | 0.2790 | 0.2059 | 49.5058 |
-| 8 | Vanilla NN using only spectral bands | 0.6553 | 0.2806 | 0.2163 | 51.9961 |
+| 1 | Geographic Random Forest – bands and aux vars | 0.8188 | 0.2034 | 0.1427 | 25.2383 |
+| 2 | Random Forest using spectral bands and auxiliary variables | 0.8188 | 0.2034 | 0.1429 | 26.0813 |
+| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.8087 | 0.2090 | 0.1486 | 28.5063 |
+| 4 | Geographic Random Forest – bands only | 0.7873 | 0.2204 | 0.1580 | 29.9656 |
+| 5 | Ensemble NN – bands and aux vars | 0.7808 | 0.2237 | 0.1593 | 33.1572 |
+| 6 | Snapshot Ensemble NN using only spectral bands | 0.7799 | 0.2242 | 0.1635 | 33.3045 |
+| 7 | NN using spectral bands and auxiliary variables | 0.7756 | 0.2264 | 0.1625 | 32.5649 |
+| 8 | Random Forest using only spectral bands | 0.7547 | 0.2367 | 0.1721 | 36.9980 |
+| 9 | Gradient boosted decision trees using only spectral bands | 0.7179 | 0.2538 | 0.1866 | 42.3999 |
+| 10 | Vanilla NN using only spectral bands | 0.6635 | 0.2772 | 0.2135 | 52.8465 |
+| 11 | CNN using only spectral bands | 0.6496 | 0.2829 | 0.2164 | 53.0346 |
 
 ### MG.PERCENT
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.4707 | 0.0854 | 0.0615 | 21.9179 |
-| 2 | NN using spectral bands and auxiliary variables | 0.4198 | 0.0894 | 0.0650 | 22.9181 |
-| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4176 | 0.0896 | 0.0654 | 23.9496 |
-| 4 | Random Forest using only spectral bands | 0.2688 | 0.1004 | 0.0716 | 25.6367 |
-| 5 | Snapshot Ensemble NN using only spectral bands | 0.2257 | 0.1033 | 0.0741 | 27.4879 |
-| 6 | Gradient boosted decision trees using only spectral bands | 0.2151 | 0.1040 | 0.0744 | 26.9053 |
-| 7 | Vanilla NN using only spectral bands | 0.1736 | 0.1067 | 0.0794 | 30.8634 |
-| 8 | CNN using only spectral bands | 0.1711 | 0.1069 | 0.0774 | 28.2541 |
+| 1 | Geographic Random Forest – bands and aux vars | 0.4733 | 0.0852 | 0.0618 | 21.9511 |
+| 2 | Random Forest using spectral bands and auxiliary variables | 0.4658 | 0.0858 | 0.0618 | 21.9793 |
+| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4443 | 0.0875 | 0.0633 | 22.7214 |
+| 4 | Ensemble NN – bands and aux vars | 0.4186 | 0.0895 | 0.0650 | 23.3696 |
+| 5 | Snapshot Ensemble NN using only spectral bands | 0.4182 | 0.0896 | 0.0647 | 22.8500 |
+| 6 | NN using spectral bands and auxiliary variables | 0.3968 | 0.0912 | 0.0655 | 23.2600 |
+| 7 | Geographic Random Forest – bands only | 0.3503 | 0.0946 | 0.0680 | 24.0957 |
+| 8 | Gradient boosted decision trees using only spectral bands | 0.2765 | 0.0999 | 0.0713 | 25.3295 |
+| 9 | Random Forest using only spectral bands | 0.2575 | 0.1012 | 0.0712 | 25.5472 |
+| 10 | Vanilla NN using only spectral bands | 0.1934 | 0.1055 | 0.0766 | 28.4517 |
+| 11 | CNN using only spectral bands | 0.1748 | 0.1067 | 0.0769 | 28.1126 |
 
 ### C.PERCENT
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.6121 | 1.8116 | 1.2661 | 2.6926 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.5715 | 1.9042 | 1.3875 | 2.9396 |
-| 3 | NN using spectral bands and auxiliary variables | 0.5646 | 1.9195 | 1.3703 | 2.9016 |
-| 4 | Random Forest using only spectral bands | 0.5497 | 1.9521 | 1.4128 | 3.0003 |
-| 5 | Gradient boosted decision trees using only spectral bands | 0.4821 | 2.0933 | 1.5557 | 3.2912 |
-| 6 | Snapshot Ensemble NN using only spectral bands | 0.4549 | 2.1476 | 1.5703 | 3.3256 |
-| 7 | Vanilla NN using only spectral bands | 0.4513 | 2.1548 | 1.5686 | 3.3167 |
-| 8 | CNN using only spectral bands | 0.4399 | 2.1771 | 1.5721 | 3.3230 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.6109 | 1.8145 | 1.2672 | 2.6956 |
+| 2 | Geographic Random Forest – bands and aux vars | 0.5869 | 1.8696 | 1.3180 | 2.8095 |
+| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.5728 | 1.9014 | 1.3711 | 2.9123 |
+| 4 | Ensemble NN – bands and aux vars | 0.5648 | 1.9191 | 1.3784 | 2.9228 |
+| 5 | Snapshot Ensemble NN using only spectral bands | 0.5537 | 1.9433 | 1.3876 | 2.9455 |
+| 6 | Random Forest using only spectral bands | 0.5442 | 1.9639 | 1.4194 | 3.0145 |
+| 7 | NN using spectral bands and auxiliary variables | 0.5415 | 1.9697 | 1.4448 | 3.0466 |
+| 8 | Geographic Random Forest – bands only | 0.5382 | 1.9768 | 1.4216 | 3.0277 |
+| 9 | Gradient boosted decision trees using only spectral bands | 0.5019 | 2.0529 | 1.5192 | 3.2211 |
+| 10 | Vanilla NN using only spectral bands | 0.4279 | 2.2002 | 1.6285 | 3.4336 |
+| 11 | CNN using only spectral bands | 0.3732 | 2.3030 | 1.7122 | 3.6247 |
 
 ### AMAX
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.6961 | 3.3032 | 2.4157 | 27.5259 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.6626 | 3.4807 | 2.5607 | 29.6971 |
-| 3 | NN using spectral bands and auxiliary variables | 0.6466 | 3.5622 | 2.6299 | 30.4118 |
-| 4 | Random Forest using only spectral bands | 0.6425 | 3.5827 | 2.5445 | 28.6737 |
-| 5 | Gradient boosted decision trees using only spectral bands | 0.6080 | 3.7517 | 2.7477 | 31.8891 |
-| 6 | Snapshot Ensemble NN using only spectral bands | 0.5696 | 3.9313 | 2.9294 | 34.6151 |
-| 7 | Vanilla NN using only spectral bands | 0.5660 | 3.9475 | 2.9395 | 34.4045 |
-| 8 | CNN using only spectral bands | 0.5639 | 3.9570 | 2.9489 | 34.6590 |
+| 1 | Geographic Random Forest – bands and aux vars | 0.6914 | 3.3291 | 2.4517 | 27.3225 |
+| 2 | Random Forest using spectral bands and auxiliary variables | 0.6904 | 3.3341 | 2.4186 | 27.5466 |
+| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.6814 | 3.3821 | 2.4923 | 28.0138 |
+| 4 | Random Forest using only spectral bands | 0.6496 | 3.5472 | 2.5632 | 28.7972 |
+| 5 | Ensemble NN – bands and aux vars | 0.6481 | 3.5548 | 2.6276 | 30.9945 |
+| 6 | Geographic Random Forest – bands only | 0.6426 | 3.5825 | 2.5236 | 27.7295 |
+| 7 | Snapshot Ensemble NN using only spectral bands | 0.6406 | 3.5924 | 2.6649 | 31.6156 |
+| 8 | NN using spectral bands and auxiliary variables | 0.6352 | 3.6193 | 2.7265 | 34.0515 |
+| 9 | Gradient boosted decision trees using only spectral bands | 0.6278 | 3.6560 | 2.6410 | 30.1670 |
+| 10 | CNN using only spectral bands | 0.5585 | 3.9815 | 2.9350 | 34.5145 |
+| 11 | Vanilla NN using only spectral bands | 0.5566 | 3.9900 | 2.9885 | 34.9067 |
 
 ### ASAT
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.5210 | 1.3519 | 1.0199 | 24.8288 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4971 | 1.3853 | 1.0459 | 25.5881 |
-| 3 | NN using spectral bands and auxiliary variables | 0.4420 | 1.4592 | 1.0957 | 27.3772 |
-| 4 | Random Forest using only spectral bands | 0.4048 | 1.5070 | 1.1281 | 27.2723 |
-| 5 | Vanilla NN using only spectral bands | 0.3567 | 1.5667 | 1.1759 | 27.9398 |
-| 6 | Gradient boosted decision trees using only spectral bands | 0.3560 | 1.5675 | 1.1672 | 28.5159 |
-| 7 | Snapshot Ensemble NN using only spectral bands | 0.3539 | 1.5701 | 1.1656 | 28.1438 |
-| 8 | CNN using only spectral bands | 0.3377 | 1.5898 | 1.1963 | 28.7038 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.5114 | 1.3654 | 1.0275 | 24.9852 |
+| 2 | Geographic Random Forest – bands and aux vars | 0.4981 | 1.3839 | 1.0498 | 25.5727 |
+| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4917 | 1.3927 | 1.0336 | 25.4180 |
+| 4 | Ensemble NN – bands and aux vars | 0.4715 | 1.4200 | 1.0552 | 25.6658 |
+| 5 | Snapshot Ensemble NN using only spectral bands | 0.4564 | 1.4402 | 1.0558 | 25.0334 |
+| 6 | Random Forest using only spectral bands | 0.4213 | 1.4860 | 1.1165 | 27.0569 |
+| 7 | NN using spectral bands and auxiliary variables | 0.3776 | 1.5411 | 1.1790 | 28.5138 |
+| 8 | Gradient boosted decision trees using only spectral bands | 0.3736 | 1.5460 | 1.1359 | 27.4919 |
+| 9 | Vanilla NN using only spectral bands | 0.3714 | 1.5487 | 1.1589 | 27.3879 |
+| 10 | CNN using only spectral bands | 0.3385 | 1.5887 | 1.1953 | 28.9166 |
+| 11 | Geographic Random Forest – bands only | 0.3382 | 1.5891 | 1.1677 | 27.9403 |
 
 ### AREA.CM2
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.4961 | 52.0050 | 34.7145 | 56.1836 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4711 | 53.2824 | 35.7158 | 56.8803 |
-| 3 | NN using spectral bands and auxiliary variables | 0.4553 | 54.0720 | 37.2691 | 61.3393 |
-| 4 | Random Forest using only spectral bands | 0.3360 | 59.6990 | 40.5068 | 66.6206 |
-| 5 | Vanilla NN using only spectral bands | 0.3240 | 60.2374 | 40.7875 | 67.3049 |
-| 6 | Gradient boosted decision trees using only spectral bands | 0.3186 | 60.4765 | 41.5685 | 67.3643 |
-| 7 | Snapshot Ensemble NN using only spectral bands | 0.2978 | 61.3903 | 41.6262 | 68.9037 |
-| 8 | CNN using only spectral bands | 0.2902 | 61.7246 | 42.4434 | 70.4744 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.4858 | 52.5375 | 35.1158 | 56.6474 |
+| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.4706 | 53.3070 | 36.1363 | 59.2947 |
+| 3 | NN using spectral bands and auxiliary variables | 0.4661 | 53.5302 | 36.1495 | 56.0102 |
+| 4 | Ensemble NN – bands and aux vars | 0.4542 | 54.1248 | 37.1782 | 59.7382 |
+| 5 | Snapshot Ensemble NN using only spectral bands | 0.4108 | 56.2372 | 37.6842 | 58.1232 |
+| 6 | Geographic Random Forest – bands and aux vars | 0.4036 | 56.5795 | 35.8061 | 58.1216 |
+| 7 | Random Forest using only spectral bands | 0.3378 | 59.6196 | 40.2509 | 66.5765 |
+| 8 | Gradient boosted decision trees using only spectral bands | 0.3238 | 60.2438 | 40.4933 | 66.6451 |
+| 9 | Geographic Random Forest – bands only | 0.2838 | 62.0017 | 40.5293 | 64.9659 |
+| 10 | Vanilla NN using only spectral bands | 0.2771 | 62.2925 | 42.6796 | 72.3519 |
+| 11 | CNN using only spectral bands | 0.2277 | 64.3820 | 43.6244 | 72.4124 |
 
 ### DRY.MASS.G
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.1879 | 0.9287 | 0.6143 | 73.3610 |
-| 2 | Random Forest using only spectral bands | 0.1338 | 0.9591 | 0.6423 | 75.6772 |
-| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.1091 | 0.9727 | 0.6619 | 79.2595 |
-| 4 | NN using spectral bands and auxiliary variables | 0.1066 | 0.9740 | 0.6582 | 79.1769 |
-| 5 | Gradient boosted decision trees using only spectral bands | 0.1001 | 0.9776 | 0.6631 | 78.7661 |
-| 6 | Vanilla NN using only spectral bands | 0.0651 | 0.9964 | 0.6758 | 82.4864 |
-| 7 | Snapshot Ensemble NN using only spectral bands | 0.0650 | 0.9964 | 0.6732 | 81.6414 |
-| 8 | CNN using only spectral bands | 0.0533 | 1.0027 | 0.6815 | 82.0479 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.1911 | 0.9268 | 0.6148 | 73.8165 |
+| 2 | Geographic Random Forest – bands and aux vars | 0.1818 | 0.9322 | 0.6114 | 72.8814 |
+| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.1804 | 0.9329 | 0.6182 | 72.7807 |
+| 4 | Geographic Random Forest – bands only | 0.1672 | 0.9404 | 0.6233 | 72.6693 |
+| 5 | Gradient boosted decision trees using only spectral bands | 0.1503 | 0.9499 | 0.6490 | 80.1550 |
+| 6 | Random Forest using only spectral bands | 0.1499 | 0.9501 | 0.6395 | 76.5053 |
+| 7 | Ensemble NN – bands and aux vars | 0.1063 | 0.9742 | 0.6605 | 79.8921 |
+| 8 | Snapshot Ensemble NN using only spectral bands | 0.0919 | 0.9820 | 0.6691 | 78.7056 |
+| 9 | NN using spectral bands and auxiliary variables | 0.0871 | 0.9846 | 0.6718 | 80.5790 |
+| 10 | Vanilla NN using only spectral bands | 0.0572 | 1.0006 | 0.6754 | 80.8532 |
+| 11 | CNN using only spectral bands | 0.0540 | 1.0023 | 0.6826 | 83.2012 |
 
 ### FRESH.MASS.G
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.3144 | 1.2155 | 0.9112 | 57.1143 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.3131 | 1.2166 | 0.9126 | 58.7932 |
-| 3 | NN using spectral bands and auxiliary variables | 0.2412 | 1.2787 | 0.9583 | 62.2832 |
-| 4 | Random Forest using only spectral bands | 0.1872 | 1.3235 | 0.9382 | 59.5328 |
-| 5 | Gradient boosted decision trees using only spectral bands | 0.1717 | 1.3360 | 0.9571 | 60.6430 |
-| 6 | CNN using only spectral bands | 0.1666 | 1.3401 | 0.9660 | 63.3017 |
-| 7 | Snapshot Ensemble NN using only spectral bands | 0.1622 | 1.3437 | 0.9672 | 63.5646 |
-| 8 | Vanilla NN using only spectral bands | 0.1607 | 1.3448 | 0.9764 | 65.0357 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.3297 | 1.2018 | 0.8972 | 56.1507 |
+| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.2969 | 1.2309 | 0.9260 | 57.8736 |
+| 3 | Ensemble NN – bands and aux vars | 0.2505 | 1.2708 | 0.9435 | 60.5777 |
+| 4 | NN using spectral bands and auxiliary variables | 0.2489 | 1.2722 | 0.9510 | 62.2088 |
+| 5 | Geographic Random Forest – bands and aux vars | 0.2269 | 1.2907 | 0.9132 | 56.5210 |
+| 6 | Snapshot Ensemble NN using only spectral bands | 0.1891 | 1.3219 | 1.0150 | 64.0730 |
+| 7 | Random Forest using only spectral bands | 0.1854 | 1.3249 | 0.9560 | 61.3605 |
+| 8 | CNN using only spectral bands | 0.1727 | 1.3352 | 0.9725 | 64.3524 |
+| 9 | Gradient boosted decision trees using only spectral bands | 0.1548 | 1.3495 | 0.9699 | 60.8489 |
+| 10 | Geographic Random Forest – bands only | 0.0634 | 1.4207 | 1.0039 | 61.9363 |
+| 11 | Vanilla NN using only spectral bands | -0.0006 | 1.4684 | 1.0866 | 74.3839 |
 
 ### THICKNESS.MM
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.6033 | 0.0526 | 0.0372 | 12.9424 |
-| 2 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.5755 | 0.0544 | 0.0386 | 13.4678 |
-| 3 | NN using spectral bands and auxiliary variables | 0.5747 | 0.0544 | 0.0392 | 13.6921 |
-| 4 | Snapshot Ensemble NN using only spectral bands | 0.4446 | 0.0622 | 0.0461 | 16.1798 |
-| 5 | Random Forest using only spectral bands | 0.4427 | 0.0623 | 0.0438 | 15.2832 |
-| 6 | Vanilla NN using only spectral bands | 0.4383 | 0.0625 | 0.0462 | 16.3581 |
-| 7 | CNN using only spectral bands | 0.4055 | 0.0643 | 0.0474 | 16.4197 |
-| 8 | Gradient boosted decision trees using only spectral bands | 0.3892 | 0.0652 | 0.0466 | 16.1911 |
+| 1 | Random Forest using spectral bands and auxiliary variables | 0.6069 | 0.0523 | 0.0371 | 12.8920 |
+| 2 | Ensemble NN – bands and aux vars | 0.5943 | 0.0532 | 0.0382 | 13.3487 |
+| 3 | Geographic Random Forest – bands and aux vars | 0.5939 | 0.0532 | 0.0374 | 12.9550 |
+| 4 | Snapshot Ensemble NN using only spectral bands | 0.5931 | 0.0532 | 0.0385 | 13.5141 |
+| 5 | NN using spectral bands and auxiliary variables | 0.5882 | 0.0536 | 0.0379 | 13.0678 |
+| 6 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.5731 | 0.0545 | 0.0387 | 13.4684 |
+| 7 | Geographic Random Forest – bands only | 0.5421 | 0.0565 | 0.0409 | 14.1522 |
+| 8 | Random Forest using only spectral bands | 0.4501 | 0.0619 | 0.0439 | 15.2997 |
+| 9 | Vanilla NN using only spectral bands | 0.4394 | 0.0625 | 0.0434 | 14.7515 |
+| 10 | CNN using only spectral bands | 0.4295 | 0.0630 | 0.0458 | 15.8903 |
+| 11 | Gradient boosted decision trees using only spectral bands | 0.4231 | 0.0634 | 0.0452 | 15.6862 |
 
 ### SLA.G.M2
 
 | Rank | Model | $R^2$ Score | RMSE | MAE | MAPE |
 |------|-------|----------|----------|-----------|--------|
-| 1 | Random Forest using spectral bands and auxiliary variables | 0.3923 | 0.0019 | 0.0013 | 13.4348 |
-| 2 | NN using spectral bands and auxiliary variables | 0.3873 | 0.0019 | 0.0013 | 13.3827 |
-| 3 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.3565 | 0.0019 | 0.0014 | 14.1469 |
-| 4 | Random Forest using only spectral bands | 0.2760 | 0.0021 | 0.0014 | 14.6430 |
-| 5 | Snapshot Ensemble NN using only spectral bands | 0.2578 | 0.0021 | 0.0015 | 15.3851 |
-| 6 | Gradient boosted decision trees using only spectral bands | 0.2405 | 0.0021 | 0.0015 | 15.2435 |
-| 7 | CNN using only spectral bands | 0.2231 | 0.0021 | 0.0015 | 15.8745 |
-| 8 | Vanilla NN using only spectral bands | 0.1899 | 0.0022 | 0.0016 | 17.0738 |
+| 1 | Ensemble NN – bands and aux vars | 0.3981 | 0.0019 | 0.0013 | 13.7729 |
+| 2 | NN using spectral bands and auxiliary variables | 0.3883 | 0.0019 | 0.0013 | 13.6628 |
+| 3 | Random Forest using spectral bands and auxiliary variables | 0.3863 | 0.0019 | 0.0013 | 13.5199 |
+| 4 | Gradient boosted decision trees using spectral bands and auxiliary variables | 0.3729 | 0.0019 | 0.0013 | 13.8348 |
+| 5 | Geographic Random Forest – bands and aux vars | 0.3587 | 0.0019 | 0.0013 | 13.3208 |
+| 6 | Snapshot Ensemble NN using only spectral bands | 0.3575 | 0.0019 | 0.0013 | 14.0840 |
+| 7 | Geographic Random Forest – bands only | 0.2960 | 0.0020 | 0.0014 | 14.4921 |
+| 8 | Random Forest using only spectral bands | 0.2803 | 0.0021 | 0.0014 | 14.6851 |
+| 9 | Gradient boosted decision trees using only spectral bands | 0.2664 | 0.0021 | 0.0014 | 14.6913 |
+| 10 | Vanilla NN using only spectral bands | 0.2398 | 0.0021 | 0.0015 | 15.5265 |
+| 11 | CNN using only spectral bands | 0.1840 | 0.0022 | 0.0016 | 16.2460 |
 
