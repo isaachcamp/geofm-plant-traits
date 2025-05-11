@@ -28,10 +28,11 @@ class GBDTBandsOnly(BaseModel):
     def __init__(self, seed, var):
         super().__init__(seed)
         self.model = GradientBoostingRegressor(
-            n_estimators=100,
-            learning_rate=0.1,
+            n_estimators=500,
+            learning_rate=0.05,
             random_state=seed,
-            loss='squared_error'
+            max_features=0.5,
+            subsample=0.8
         )
 
     def fit(self, X: Array, y: Array, X_val: Array, y_val: Array) -> None:
