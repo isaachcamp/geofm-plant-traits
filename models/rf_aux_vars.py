@@ -13,7 +13,7 @@ class RFAuxAndBands(BaseModel):
     """Random Forest model that uses auxiliary variables and spectral bands."""
     name = "Random Forest using spectral bands and auxiliary variables"
 
-    def __init__(self, seed: int):
+    def __init__(self, seed, var):
         super().__init__(seed)
         self.model = RandomForestRegressor(
             n_estimators=200,
@@ -37,6 +37,6 @@ class RFAuxAndBands(BaseModel):
         return X.to_numpy(), y.to_numpy().ravel()
 
 
-def create_model(seed=None):
+def create_model(seed=None, var=None) -> RFAuxAndBands:
     """Create and return a model instance."""
-    return RFAuxAndBands(seed)
+    return RFAuxAndBands(seed, var)

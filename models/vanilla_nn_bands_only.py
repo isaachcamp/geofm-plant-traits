@@ -28,7 +28,7 @@ BANDS = [
 ]
 
 class NNBandsOnly(BaseModel):
-    def __init__(self, seed=None):
+    def __init__(self, seed, var):
         self.name = "Vanilla NN using only spectral bands"
 
         super().__init__(seed)
@@ -121,5 +121,5 @@ class NNBandsOnly(BaseModel):
 
         return val_loss, val_mape
 
-def create_model(seed=None):
-    return NNBandsOnly(seed)
+def create_model(seed=None, var=None) -> NNBandsOnly:
+    return NNBandsOnly(seed, var)

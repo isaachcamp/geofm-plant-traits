@@ -25,7 +25,7 @@ BANDS = [
 class RFBandsOnly(BaseModel):
     name = "Random Forest using only spectral bands"
 
-    def __init__(self, seed):
+    def __init__(self, seed, var):
         super().__init__(seed)
         self.model = RandomForestRegressor(
             n_estimators=100,
@@ -49,6 +49,6 @@ class RFBandsOnly(BaseModel):
         return X[BANDS], y.to_numpy().ravel()
 
 
-def create_model(seed=None):
+def create_model(seed=None, var=None) -> RFBandsOnly:
     """Create and return a model instance."""
-    return RFBandsOnly(seed)
+    return RFBandsOnly(seed, var)

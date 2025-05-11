@@ -28,23 +28,23 @@ BANDS = [
 ]
 
 class CNNBandsOnly(BaseModel):
-    def __init__(self, seed=None):
+    def __init__(self, seed, var):
         self.name = "CNN using only spectral bands"
 
         super().__init__(seed)
 
         self.model = nn.Sequential(
-            nn.Conv1d(in_channels=1, out_channels=8, kernel_size=5, stride=2, padding=2), # (n, 8, 5)
+            nn.Conv1d(in_channels=1, out_channels=8, kernel_size=3, stride=1, padding=1), # (n, 8, 9)
             nn.ReLU(),
             nn.BatchNorm1d(8),
-            nn.Conv1d(in_channels=8, out_channels=16, kernel_size=3, stride=1, padding=1), # (n, 16, 5)
+            nn.Conv1d(in_channels=8, out_channels=16, kernel_size=3, stride=1, padding=1), # (n, 16, 9)
             nn.ReLU(),
             nn.BatchNorm1d(16),
-            nn.Conv1d(in_channels=16, out_channels=32, kernel_size=3, stride=1, padding=1), # (n, 32, 5)
+            nn.Conv1d(in_channels=16, out_channels=32, kernel_size=3, stride=1, padding=1), # (n, 32, 9)
             nn.ReLU(),
             nn.BatchNorm1d(32),
             nn.Flatten(),
-            nn.Linear(160, 32),
+            nn.Linear(288, 32),
             nn.BatchNorm1d(32),
             nn.ReLU(),
             nn.Linear(32, 1)
@@ -118,5 +118,5 @@ class CNNBandsOnly(BaseModel):
 
         return val_loss, val_mape
 
-def create_model(seed=None):
-    return CNNBandsOnly(seed)
+def create_model(seed=None, var=None) -> CNNBandsOnly:
+    return CNNBandsOnly(seed, var)
