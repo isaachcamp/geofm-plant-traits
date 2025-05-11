@@ -13,8 +13,8 @@ from models.base_model import BaseModel
 Array = ndarray
 
 
-HPARAMS_PATH = Path('/Users/campbelli/Documents/geofm-plant-traits/data/metadata/grf_hparams.json')
-COORDS_PATH = Path('/Users/campbelli/Documents/geofm-plant-traits/data/metadata/pixel_coords.csv')
+HPARAMS_PATH = Path('./data/metadata/grf_hparams.json')
+COORDS_PATH = Path('./data/metadata/pixel_coords.csv')
 
 class GRFAuxAndBands(BaseModel):
     name = "Geographic Random Forest – bands and aux vars"
