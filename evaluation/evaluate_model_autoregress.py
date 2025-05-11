@@ -54,13 +54,18 @@ def evaluate_model(model, dpath: str, var, preds_df: pd.DataFrame):
     X_val, y_val = dataset.val_data, dataset.val_labels
     X_test, y_test = dataset.test_data, dataset.test_labels
 
+    if not preds_df.empty:
+        X_train = X_train.join(preds_df, how='inner').dropna(axis=0, how='any')
+        X_val = X_val.join(preds_df, how='inner').dropna(axis=0, how='any')
+        X_test = X_test.join(preds_df, how='inner').dropna(axis=0, how='any')
+
+        y_train = y_train.loc[X_train.index]
+        y_val = y_val.loc[X_val.index]
+        y_test = y_test.loc[X_test.index]
+
     # Concatenate all data for predictions, save DataFrame indexing ability.
     X = pd.concat([X_train, X_val, X_test])
-
-    if not preds_df.empty:
-        X_train = X_train.join(preds_df[X_train.index])
-        X_val = X_val.join(preds_df[X_val.index])
-        X_test = X_test.join(preds_df[X_test.index])
+    y = pd.concat([y_train, y_val, y_test])
 
     X_train, y_train = model.configure_data(X_train, y_train)
     X_val, y_val = model.configure_data(X_val, y_val)
@@ -83,7 +88,7 @@ def evaluate_model(model, dpath: str, var, preds_df: pd.DataFrame):
     }
 
     # Predict trait value for all samples.
-    X_prepped = model.configure_data(X, None)
+    X_prepped, _ = model.configure_data(X, y) # y_train only for correct type
     preds = pd.Series(model.predict(X_prepped), index=X.index, name=var)
 
     return metrics, preds
@@ -112,13 +117,13 @@ def run_evaluation(model_path: str, dpath: str, seed: int = 42):
         metrics, preds = evaluate_model(model, dpath, var, preds_df)
         results[var] = metrics
 
-        preds_df.join(preds, how='outer')
+        preds_df = preds_df.join(preds, how='outer')
 
     results['mean_r2_score'] = sum([res['R_squared'] for res in results.values()]) / len(results)
 
     # Update leaderboard with results
-    # update_leaderboard(model.name, model_path, results)
-    # print(f"Leaderboard updated with results for '{model.name}'")
+    update_leaderboard(model.name, model_path, results, "leaderboard_autoregress")
+    print(f"Leaderboard updated with results for '{model.name}'")
 
 if __name__ == "__main__":
     # Run manually or via GitHub Actions
