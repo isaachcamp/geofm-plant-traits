@@ -15,7 +15,7 @@ Array = ndarray
 
 
 class NNAuxAndBands(BaseModel):
-    def __init__(self, seed=None):
+    def __init__(self, seed, var):
         self.name = "NN using spectral bands and auxiliary variables"
 
         super().__init__(seed)
@@ -106,5 +106,5 @@ class NNAuxAndBands(BaseModel):
 
         return val_loss, val_mape
 
-def create_model(seed=None):
-    return NNAuxAndBands(seed)
+def create_model(seed=None, var=None) -> NNAuxAndBands:
+    return NNAuxAndBands(seed, var)

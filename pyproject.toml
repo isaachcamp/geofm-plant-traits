@@ -16,6 +16,7 @@ dependencies = [
     "ipykernel>=6.29.5",
     "matplotlib>=3.10.1",
     "numpy>=2.2.4",
+    "pygrf>=0.0.12",
     "pystac>=1.12.2",
     "pystac-client>=0.8.6",
     "pytest>=8.3.5",

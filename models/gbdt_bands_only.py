@@ -25,7 +25,7 @@ BANDS = [
 class GBDTBandsOnly(BaseModel):
     name = "Gradient boosted decision trees using only spectral bands"
 
-    def __init__(self, seed):
+    def __init__(self, seed, var):
         super().__init__(seed)
         self.model = GradientBoostingRegressor(
             n_estimators=100,
@@ -48,6 +48,6 @@ class GBDTBandsOnly(BaseModel):
         return X[BANDS].to_numpy(), y.to_numpy().ravel()
 
 
-def create_model(seed=None):
+def create_model(seed=None, var=None) -> GBDTBandsOnly:
     """Create and return a model instance."""
-    return GBDTBandsOnly(seed)
+    return GBDTBandsOnly(seed, var)
