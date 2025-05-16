@@ -31,39 +31,45 @@ y = pd.Series([1, 2, 3])
 class TestRFBandsOnly:
     def test_init(self):
         """Test the initialization of the RFBandsOnly model."""
-        model = RFBandsOnly(seed=42)
+        model = RFBandsOnly(seed=42, var='test_var')
         assert model.name == "Random Forest using only spectral bands"
         assert model.model is not None
         assert model.model.n_estimators == 100
+        assert model.model.max_depth == 15
+        assert model.model.max_features == 0.5
+        assert model.model.min_samples_leaf == 1
         assert model.model.random_state == 42
 
     def test_configure_data(self):
         """Test the configure_data method of the RFBandsOnly model."""
-        model = RFBandsOnly(seed=42)
+        model = RFBandsOnly(seed=42, var='test_var')
         X_configured, y_configured = model.configure_data(X, y)
 
         assert X_configured.shape[1] == 9  # Number of bands
         assert y_configured.shape == (3,)
 
-        assert isinstance(X_configured, pd.DataFrame)
+        assert isinstance(X_configured, np.ndarray)
         assert isinstance(y_configured, np.ndarray)
 
 class TestRFAuxAndBands:
     def test_init(self):
         """Test the initialization of the RFAuxAndBands model."""
-        model = RFAuxAndBands(seed=42)
+        model = RFAuxAndBands(seed=42, var='test_var')
         assert model.name == "Random Forest using spectral bands and auxiliary variables"
         assert model.model is not None
-        assert model.model.n_estimators == 100
+        assert model.model.n_estimators == 200
+        assert model.model.max_depth == 15
+        assert model.model.max_features == "log2"
+        assert model.model.min_samples_leaf == 2
         assert model.model.random_state == 42
 
     def test_configure_data(self):
         """Test the configure_data method of the RFAuxAndBands model."""
-        model = RFAuxAndBands(seed=42)
+        model = RFAuxAndBands(seed=42, var='test_var')
         X_configured, y_configured = model.configure_data(X, y)
 
         assert X_configured.shape[1] == 11  # Number of bands + auxiliary variables
         assert y_configured.shape == (3,)
 
-        assert isinstance(X_configured, pd.DataFrame)
+        assert isinstance(X_configured, np.ndarray)
         assert isinstance(y_configured, np.ndarray)
