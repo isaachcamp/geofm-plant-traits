@@ -80,6 +80,24 @@ class TestLabelledTraitData:
         # Check labels are all floats
         assert self.dataset.test_labels.dtypes.apply(lambda x: x == 'float64').all()
 
+    def test_standardisation(self):
+        """Test standardisation of test data."""
+        # Check train, val and test data have zero mean and unit variance.
+        # Aggregate mean and std for all three datasets.
+        mean = pd.concat([
+            self.dataset.train_data,
+            self.dataset.val_data,
+            self.dataset.test_data
+        ]).mean()
+        std = pd.concat([
+            self.dataset.train_data,
+            self.dataset.val_data,
+            self.dataset.test_data
+        ]).std()
+
+        assert (abs(mean) < 1e-5).all()
+        assert (abs(std - 1) < 1e-5).all()
+
 
 class TestTrainValTestSplit:
     # Create a sample DataFrame
