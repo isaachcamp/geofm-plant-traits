@@ -18,7 +18,7 @@ Array = ndarray
 
 class NNSnapshotEnsembleAuxAndBands(BaseModel):
     def __init__(self, seed, var):
-        self.name = "Snapshot Ensemble NN using only spectral bands"
+        self.name = "Snapshot Ensemble NN – bands and aux vars"
 
         self.total_epochs = 3000
         self.total_snapshots = 30
