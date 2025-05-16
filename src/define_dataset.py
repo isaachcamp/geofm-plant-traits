@@ -12,11 +12,12 @@ class SentinelSpectraDataset(Dataset):
 
     def load_data(self):
         data = pd.read_csv(self.dpath).drop(columns='chipid')
+        data.drop(columns=['nir08'], inplace=True)
         return self.transform(data)
 
     def transform(self, data):
         data = torch.tensor(
-            data.to_numpy().reshape(data.shape[0], 1, 10),
+            data.to_numpy().reshape(data.shape[0], 1, 9),
             dtype=torch.float32
         )
         return normalize(data)
