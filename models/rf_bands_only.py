@@ -46,7 +46,7 @@ class RFBandsOnly(BaseModel):
     @staticmethod
     def configure_data(X: DataFrame, y: Array) -> Tuple[Array, Array]:
         """Configure the data for the model."""
-        return X[BANDS], y.to_numpy().ravel()
+        return X[BANDS].to_numpy(), y.to_numpy().ravel()
 
 
 def create_model(seed=None, var=None) -> RFBandsOnly:
