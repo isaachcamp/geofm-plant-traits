@@ -39,6 +39,9 @@ class NNAuxAndBands(BaseModel):
             nn.Linear(64, 1)
         )
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3, weight_decay=0.05)
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            self.optimizer, mode='min', factor=0.15, patience=50
+        )
         self.loss_fn = nn.MSELoss()
         self.model.to(self.device)
 
@@ -69,6 +72,8 @@ class NNAuxAndBands(BaseModel):
             # Validation
             val_loss, val_mape = self.validation(X_val, y_val)
             loss_history.append(val_loss)
+
+            self.scheduler.step(val_loss)
 
             # Print loss every 5 epochs
             if epoch % 5 == 0:
