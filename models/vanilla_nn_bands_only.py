@@ -28,8 +28,12 @@ BANDS = [
 ]
 
 class NNBandsOnly(BaseModel):
+    name = "NN – bands only"
+
     def __init__(self, seed, var):
-        self.name = "Vanilla NN using only spectral bands"
+        torch.manual_seed(seed)
+        self.var = var
+        self.total_epochs = 200
 
         super().__init__(seed)
 
@@ -52,8 +56,12 @@ class NNBandsOnly(BaseModel):
             nn.Linear(64, 1)
         )
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3, weight_decay=0.05)
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            self.optimizer, mode='min', factor=0.05, patience=100
+        )
         self.loss_fn = nn.MSELoss()
         self.model.to(self.device)
+        self.best_model_state = None
 
 
     def fit(self, X: Tensor, y: Tensor, X_val: Tensor, y_val: Tensor):
@@ -65,7 +73,7 @@ class NNBandsOnly(BaseModel):
         self.model.train()
         loss_history = []
 
-        for epoch in range(300):
+        for epoch in range(self.total_epochs):
             running_loss = 0.
             for X_batch, y_batch in dataloader:
                 X_batch = X_batch.to(self.device)
@@ -84,9 +92,17 @@ class NNBandsOnly(BaseModel):
             val_loss, val_mape = self.validation(X_val, y_val)
             loss_history.append(val_loss)
 
+            if val_loss == min(loss_history):
+                # Save the best model state
+                self.best_model_state = self.model.state_dict()
+
+            self.scheduler.step(val_loss)
+
             # Print loss every 5 epochs
             if epoch % 5 == 0:
                 print(f"Epoch {epoch}, Loss: {val_loss}, MAPE: {val_mape}")
+
+        self.model.load_state_dict(self.best_model_state)
 
         return self
 
