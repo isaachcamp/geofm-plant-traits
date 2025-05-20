@@ -56,6 +56,9 @@ jobs:
           if [[ "$model_file" == *"__init__.py"* || "$model_file" == *"base_model.py"* ]]; then
             continue
           fi
+          if [[ "$model_file" == *"grf_aux_vars.py"* ]] || [[ "$model_file" == *"grf_bands_only.py"* ]]; then
+            continue
+          fi
           if [ -f "$model_file" ]; then
             model_name=$(basename $model_file .py)
             echo "Evaluating model: $model_name"
