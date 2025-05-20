@@ -18,7 +18,7 @@ from src.data_utils import LabelledTraitData, train_val_test_split
 
 filterwarnings("ignore", module="sklearn")
 
-N_REPEATS = 1
+N_REPEATS = 20
 VARS = [
     'N.Percent',
     'P.Percent',
@@ -51,8 +51,7 @@ def evaluate_model(model, dataset: LabelledTraitData):
     X = pd.concat([dataset.train_data, dataset.val_data, dataset.test_data])
     y = pd.concat([dataset.train_labels, dataset.val_labels, dataset.test_labels])
 
-    # X_train, X_val, X_test = train_val_test_split(X, 0.7, 0.1)
-    X_train, X_val, X_test = dataset.train_data, dataset.val_data, dataset.test_data
+    X_train, X_val, X_test = train_val_test_split(X, 0.7, 0.1)
     y_train, y_val, y_test = y.loc[X_train.index], y.loc[X_val.index], y.loc[X_test.index]
 
     X_train, y_train = model.configure_data(X_train, y_train)
