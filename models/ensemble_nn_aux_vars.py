@@ -18,8 +18,10 @@ class NNEnsembleAuxAndBands(BaseModel):
         self.name = "Ensemble NN – bands and aux vars"
 
         # Create an ensemble of models, initializing each with different weights.
-        self.total_models = 30
+        self.total_models = 50
         self.models = [NNAuxAndBands(seed, var) for _ in range(self.total_models)]
+        for model in self.models:
+            model.total_epochs = 10
 
         super().__init__(seed)
 
