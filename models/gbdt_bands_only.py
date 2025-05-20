@@ -2,6 +2,7 @@
 from typing import Tuple
 from numpy import ndarray
 from pandas import DataFrame
+import numpy as np
 from sklearn.ensemble import GradientBoostingRegressor
 
 from models.base_model import BaseModel
@@ -23,7 +24,7 @@ BANDS = [
 ]
 
 class GBDTBandsOnly(BaseModel):
-    name = "Gradient boosted decision trees using only spectral bands"
+    name = "GBDT – bands only"
 
     def __init__(self, seed, var):
         super().__init__(seed)
@@ -37,6 +38,8 @@ class GBDTBandsOnly(BaseModel):
 
     def fit(self, X: Array, y: Array, X_val: Array, y_val: Array) -> None:
         """Fit the model to the data."""
+        X = np.concatenate([X, X_val])
+        y = np.concatenate([y, y_val])
         return self.model.fit(X, y)
 
     def predict(self, X: Array) -> Array:

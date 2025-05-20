@@ -1,7 +1,8 @@
 
 from typing import Tuple
 from numpy import ndarray
-from pandas import DataFrame
+import pandas as pd
+import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
 from models.base_model import BaseModel
@@ -23,7 +24,7 @@ BANDS = [
 ]
 
 class RFBandsOnly(BaseModel):
-    name = "Random Forest using only spectral bands"
+    name = "RF – bands only"
 
     def __init__(self, seed, var):
         super().__init__(seed)
@@ -37,6 +38,8 @@ class RFBandsOnly(BaseModel):
 
     def fit(self, X: Array, y: Array, X_val: Array, y_val: Array) -> None:
         """Fit the model to the data."""
+        X = np.concatenate([X, X_val])
+        y = np.concatenate([y, y_val])
         return self.model.fit(X, y)
 
     def predict(self, X: Array) -> Array:
@@ -44,7 +47,7 @@ class RFBandsOnly(BaseModel):
         return self.model.predict(X)
 
     @staticmethod
-    def configure_data(X: DataFrame, y: Array) -> Tuple[Array, Array]:
+    def configure_data(X: pd.DataFrame, y: Array) -> Tuple[Array, Array]:
         """Configure the data for the model."""
         return X[BANDS].to_numpy(), y.to_numpy().ravel()
 
