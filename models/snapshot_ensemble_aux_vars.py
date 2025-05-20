@@ -20,8 +20,8 @@ class NNSnapshotEnsembleAuxAndBands(BaseModel):
     def __init__(self, seed, var):
         self.name = "Snapshot Ensemble NN – bands and aux vars"
 
-        self.total_epochs = 3000
-        self.total_snapshots = 30
+        self.total_epochs = 1000
+        self.total_snapshots = 50
         self.lr_max = 1e-3
         self.snapshots = []
 
