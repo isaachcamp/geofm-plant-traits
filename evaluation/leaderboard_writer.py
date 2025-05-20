@@ -68,11 +68,12 @@ def create_markdown_leaderboard(leaderboard):
         f.write("|------|-------|--------|--------------|-------------|\n")
 
         for i, entry in enumerate(leaderboard):
-            f.write("| {} | {} | {} | {:.4f} | {} |\n".format(
+            f.write("| {} | {} | {} | {:.3f}±{:.3f} | {} |\n".format(
                 i + 1,
                 entry["model_name"],
                 entry["author"],
                 entry["results"].pop("mean_r2_score"),
+                entry["results"].pop("std_r2_score"),
                 entry["timestamp"].split("T")[0]
             ))
 
@@ -86,19 +87,23 @@ def create_markdown_leaderboard(leaderboard):
             # Sort models by their performance on this variable
             sorted_entries = sorted(
                 [e for e in leaderboard if var in e["results"]],
-                key=lambda x: x["results"][var]["R_squared"],
+                key=lambda x: x["results"][var]["R_squared_mean"],
                 reverse=True
             )
 
             for i, entry in enumerate(sorted_entries):
                 results = entry["results"].get(var, {})
                 if results:
-                    f.write("| {} | {} | {:.4f} | {:.4f} | {:.4f} | {:.4f} |\n".format(
+                    f.write("| {} | {} | {:.3f}±{:.3f} | {:.3f}±{:.3f} | {:.3f}±{:.3f} | {:.3f}±{:.3f} |\n".format(
                         i + 1,
                         entry["model_name"],
-                        results.get("R_squared", 0),
-                        results.get("RMSE", 0),
-                        results.get("MAE", 0),
-                        results.get("MAPE", 0)
+                        results.get("R_squared_mean", 0),
+                        results.get("R_squared_std", 0),
+                        results.get("RMSE_mean", 0),
+                        results.get("RMSE_std", 0),
+                        results.get("MAE_mean", 0),
+                        results.get("MAE_std", 0),
+                        results.get("MAPE_mean", 0),
+                        results.get("MAPE_std", 0)
                     ))
             f.write("\n")

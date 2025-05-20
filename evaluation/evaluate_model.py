@@ -5,6 +5,8 @@ from warnings import filterwarnings
 import importlib.util
 import json
 from pathlib import Path
+import numpy as np
+import pandas as pd
 from sklearn.metrics import (
     r2_score,
     root_mean_squared_error,
@@ -12,11 +14,11 @@ from sklearn.metrics import (
     mean_absolute_percentage_error
 )
 from evaluation.leaderboard_writer import update_leaderboard
-from src.data_utils import LabelledTraitData
+from src.data_utils import LabelledTraitData, train_val_test_split
 
 filterwarnings("ignore", module="sklearn")
 
-
+N_REPEATS = 1
 VARS = [
     'N.Percent',
     'P.Percent',
@@ -44,13 +46,14 @@ def load_model(model_path: Path, seed: int = None, var: str = None):
     # Models should implement a create_model() function
     return module.create_model(seed, var)
 
-def evaluate_model(model, dpath: str, var):
+def evaluate_model(model, dataset: LabelledTraitData):
     """Evaluate a model on a specific dataset."""
-    dataset = LabelledTraitData(dpath, var)
+    X = pd.concat([dataset.train_data, dataset.val_data, dataset.test_data])
+    y = pd.concat([dataset.train_labels, dataset.val_labels, dataset.test_labels])
 
-    X_train, y_train = dataset.train_data, dataset.train_labels
-    X_val, y_val = dataset.val_data, dataset.val_labels
-    X_test, y_test = dataset.test_data, dataset.test_labels
+    # X_train, X_val, X_test = train_val_test_split(X, 0.7, 0.1)
+    X_train, X_val, X_test = dataset.train_data, dataset.val_data, dataset.test_data
+    y_train, y_val, y_test = y.loc[X_train.index], y.loc[X_val.index], y.loc[X_test.index]
 
     X_train, y_train = model.configure_data(X_train, y_train)
     X_val, y_val = model.configure_data(X_val, y_val)
@@ -88,15 +91,37 @@ def run_evaluation(model_path: str, dpath: str, seed: int = 42):
         trait_stats = json.load(f)
 
     for var in VARS:
-        model = load_model(model_path, seed, var)
-        var_stats = trait_stats[var]
-        model.set_stats(var_stats)
+        results[var] = {
+            'R_squared': [],
+            'RMSE': [],
+            'MAE': [],
+            'MAPE': []
+        }
+        dataset = LabelledTraitData(dpath, var)
 
-        print(f"Evaluating {model.name} on {var}...")
-        metrics = evaluate_model(model, dpath, var)
-        results[var] = metrics
+        for i in range(N_REPEATS):
+            model = load_model(model_path, seed, var)
+            var_stats = trait_stats[var]
+            model.set_stats(var_stats)
 
-    results['mean_r2_score'] = sum([res['R_squared'] for res in results.values()]) / len(results)
+            if i == 0:
+                print(f"Evaluating {model.name} on {var}...")
+
+            metrics = evaluate_model(model, dataset)
+
+            results[var]['R_squared'].append(metrics['R_squared'])
+            results[var]['RMSE'].append(metrics['RMSE'])
+            results[var]['MAE'].append(metrics['MAE'])
+            results[var]['MAPE'].append(metrics['MAPE'])
+
+        for metric in metrics:
+            results[var][f'{metric}_mean'] = float(np.mean(results[var][metric]))
+            results[var][f'{metric}_std'] = float(np.std(results[var][metric]))
+
+    traits_mean = np.array([results[var]['R_squared'] for var in VARS]).mean(axis=0)
+
+    results['mean_r2_score'] = float(traits_mean.mean())
+    results['std_r2_score'] = float(traits_mean.std())
 
     # Update leaderboard with results
     update_leaderboard(model.name, model_path, results)
