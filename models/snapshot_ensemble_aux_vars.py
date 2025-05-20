@@ -17,8 +17,11 @@ Array = ndarray
 
 
 class NNSnapshotEnsembleAuxAndBands(BaseModel):
+    name = "Snapshot Ensemble NN – bands and aux vars"
+
     def __init__(self, seed, var):
-        self.name = "Snapshot Ensemble NN – bands and aux vars"
+        torch.manual_seed(seed)
+        self.var = var
 
         self.total_epochs = 1000
         self.total_snapshots = 50
