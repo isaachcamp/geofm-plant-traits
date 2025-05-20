@@ -14,8 +14,11 @@ Array = ndarray
 
 
 class NNEnsembleAuxAndBands(BaseModel):
+    name = "Ensemble NN – bands and aux vars"
+
     def __init__(self, seed, var):
-        self.name = "Ensemble NN – bands and aux vars"
+        # Ignore seed else weak estimators will be the same.
+        self.var = var
 
         # Create an ensemble of models, initializing each with different weights.
         self.total_models = 50
