@@ -56,8 +56,8 @@ jobs:
           if [[ "$model_file" == *"__init__.py"* || "$model_file" == *"base_model.py"* ]]; then
             continue
           fi
-          # Skip all except snapshot_ensemble_aux_vars.py
-          if ! [[ "$model_file" == *"snapshot_ensemble_aux_vars.py"* ]]; then
+          # Skip all except ensemble_nn_aux_vars.py
+          if ! [[ "$model_file" == *"ensemble_nn_aux_vars.py"* ]]; then
             continue
           fi
           if [[ "$model_file" == *"grf_aux_vars.py"* ]] || [[ "$model_file" == *"grf_bands_only.py"* ]]; then
