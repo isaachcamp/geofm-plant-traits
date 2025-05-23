@@ -29,7 +29,7 @@ HPARAMS_PATH = Path('./data/metadata/grf_hparams.json')
 COORDS_PATH = Path('./data/metadata/pixel_coords.csv')
 
 class GRFBandsOnly(BaseModel):
-    name = "Geographic Random Forest – bands only"
+    name = "GRF – bands only"
     coords: pd.DataFrame
 
     def __init__(self, seed, var):

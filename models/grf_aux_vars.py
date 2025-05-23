@@ -17,7 +17,7 @@ HPARAMS_PATH = Path('./data/metadata/grf_hparams.json')
 COORDS_PATH = Path('./data/metadata/pixel_coords.csv')
 
 class GRFAuxAndBands(BaseModel):
-    name = "Geographic Random Forest – bands and aux vars"
+    name = "GRF – bands and aux vars"
     coords: pd.DataFrame
 
     def __init__(self, seed, var):
@@ -33,8 +33,8 @@ class GRFAuxAndBands(BaseModel):
             band_width=self.bandwidth,
             train_weighted=True,
             predict_weighted=True,
-            bootstrap=False,
-            resampled=True,
+            bootstrap=True,
+            resampled=False,
             random_state=seed
         )
 
